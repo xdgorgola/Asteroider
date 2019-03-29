@@ -7,7 +7,6 @@ public class HealthManager : MonoBehaviour
     public int maxHealth = 100;
     public float health = 100;
 
-    public ShipsBase baseShip;
     //Una lista con las partes
 
     private void Update()
