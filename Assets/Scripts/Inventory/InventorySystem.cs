@@ -74,9 +74,6 @@ public class InventorySystem : MonoBehaviour
             inv2 = null;
             inv2UI.SetActive(false);
         }
-        //inv1UI.SetActive(false);
-        //inv2UI.SetActive(false);
-        //inv2 = null;
     }
 
     /// <summary>
