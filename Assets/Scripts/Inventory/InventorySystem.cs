@@ -7,13 +7,13 @@ public class InventorySystem : MonoBehaviour
     public static InventorySystem invSyst;
 
     /// <summary>
-    /// Inventario del jugador.
+    /// Inventario involucrado 1
     /// </summary>
-    public Inventory playerInv;
+    public Inventory inv1;
     /// <summary>
-    /// Otro inventario involucrado.
+    /// Inventario involucrado 2
     /// </summary>
-    public Inventory otherInv;
+    public Inventory inv2;
 
     /// <summary>
     /// Slots de un inventario seleccionado.
@@ -22,98 +22,116 @@ public class InventorySystem : MonoBehaviour
     public InventorySlot selSlot2;
 
     /// <summary>
-    /// GameObjects asociados a las UI de los inventarios. InventoryPlayer/Others
+    /// GameObjects asociados a las UI de los inventarios. Inventory1/Inventory2
     /// </summary>
     [SerializeField]
-    private GameObject playerInvUI;
+    private GameObject inv1UI;
     [SerializeField]
-    private GameObject otherInvUI;
+    private GameObject inv2UI;
 
     /// <summary>
     /// GameObjects asociados a los slots de los inventarios.
     /// </summary>
-    private GameObject[] playerSlots;
-    private GameObject[] otherSlots;
+    private GameObject[] inv1Slots;
+    private GameObject[] inv2Slots;
 
     private void Awake()
     {
         invSyst = this;   
     }
 
-    private void Start()
-    {
-        InitializeSlots(true);    
-    }
+    //private void Start()
+    //{
+    //    InitializeSlots(true);    
+    //}
 
-    public void StartInvInteraction(Inventory other)
+    public void StartInvInteraction(Inventory inv11, Inventory inv22 = null)
     {
-        otherInv = other;
-        playerInvUI.SetActive(true);
-        otherInvUI.SetActive(true);
-        otherInv.InitializeInventory();
+        //Initializing first inventory objects.
+        inv1 = inv11;
+        inv1UI = inv11.invObject;
+        inv1UI.SetActive(true);
+        inv1.InitializeInventory();
+
+        //Initializing second inventory objects
+        if (inv22 != null)
+        {            
+            inv2 = inv22;
+            inv2UI = inv22.invObject;
+            inv2UI.SetActive(true);            
+            inv2.InitializeInventory();            
+        }
+        //Initializing slots
         InitializeSlots();
     }
 
     public void StopInvInteraction()
     {
-        playerInvUI.SetActive(false);
-        otherInvUI.SetActive(false);
-        otherInv = null;
+        inv1 = null;
+        inv1UI.SetActive(false);
+        if (inv2 != null)
+        {
+            inv2 = null;
+            inv2UI.SetActive(false);
+        }
+        //inv1UI.SetActive(false);
+        //inv2UI.SetActive(false);
+        //inv2 = null;
     }
 
     /// <summary>
-    /// Funcion para agregar un item a un slot
+    /// Method to add an item to a slot
     /// </summary>
-    /// <param name="item">Item a agregar</param>
-    /// <param name="slot">Slot a modificar</param>
+    /// <param name="item">Item to add</param>
+    /// <param name="slot">Slot to modify</param>
     public void AddItemToSlot(Item item, InventorySlot slot)
     {
         slot.AddItemToSlot(item);
-        //Chequea si el slot es child de la UI del jugador
-        if(slot.transform.parent.gameObject == playerInvUI)
+        //Checks which inventory the slot belongs to
+        if(slot.transform.parent.gameObject == inv1UI)
         {
-            int pos = System.Array.IndexOf(playerSlots, slot.gameObject);
-            playerInv.inventory[pos] = item;
+            int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
+            inv1.inventory[pos] = item;
             
         }
         else
         {
-            int pos = System.Array.IndexOf(otherSlots, slot.gameObject);
-            otherInv.inventory[pos] = item;
+            int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
+            inv2.inventory[pos] = item;
         }
 
     }
 
     /// <summary>
-    /// Funcion para vaciar un slot
+    /// Method to empty a slot
     /// </summary>
-    /// <param name="slot">Slot a vaciar</param>
+    /// <param name="slot">Slot to empty</param>
     public void RemoveItemFromSlot(InventorySlot slot)
     {
         slot.RemoveItemFromSlot();
-        //Chequea si el slot es child de la UI del jugador
+        //Checks which inventory the slot belongs to
 
-        if (slot.transform.parent.gameObject == playerInvUI)
+        if (slot.transform.parent.gameObject == inv1UI)
         {
-            int pos = System.Array.IndexOf(playerSlots, slot.gameObject);
-            playerInv.inventory[pos] = null;
+            int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
+            inv1.inventory[pos] = null;
         }
         else
         {
-            int pos = System.Array.IndexOf(otherSlots, slot.gameObject);
-            otherInv.inventory[pos] = null;
+            int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
+            inv2.inventory[pos] = null;
         }
     }
 
     /// <summary>
-    /// Funcion para seleccionar un slot
+    /// Method to select a slot
     /// </summary>
-    /// <param name="slotG">Slot a seleccionar</param>
+    /// <param name="slotG">Slot to select</param>
     public void SelectSlot(GameObject slotG)
     {
         Debug.Log("Seleccionando slot");
         InventorySlot slot = slotG.GetComponent<InventorySlot>();
-        //Si el slot no esta seleccionado, ahora si
+        //If the slot isn't selected, now it is
         if (!slot.isSelected)
         {
             if (selSlot1 == null)
@@ -132,7 +150,7 @@ public class InventorySystem : MonoBehaviour
             }
             Debug.Log("There is already two slots selected");
         }
-        //Si el slot esta seleccionado, ahora no
+        //If the slot is selected, now it isn't
         if (slot.isSelected)
         {
             slot.isSelected = false;
@@ -146,31 +164,26 @@ public class InventorySystem : MonoBehaviour
                 selSlot2 = null;
                 return;
             }
-            Debug.Log("EPA ACA PASA ALGO");
         }
     }
 
     /// <summary>
-    /// Funcion para iniciar los arrays que contienen los GameObjects asociados a los slots
+    /// Method to initialize the arrays containing the GameObjects associated with the slots
     /// </summary>
-    /// <param name="firstTime">Es la primera vez que se inicializan los slots?</param>
-    public void InitializeSlots(bool firstTime = false)
+    public void InitializeSlots()
     {
-        //Inicializar los slots del player
-        if (firstTime)
+        if (inv1 != null)
         {
-            playerSlots = playerInv.inventorySlots;
+            inv1Slots = inv1.inventorySlots;
         }
-
-        //Inicializar slots del otro inventario
-        else
+        if (inv2 != null)
         {
-            otherSlots = otherInv.inventorySlots;
+            inv2Slots = inv2.inventorySlots;
         }
     }
 
     /// <summary>
-    /// Funcion para intercambiar items entre dos slots
+    /// Method to exchange items between the selected slots
     /// </summary>
     public void ExchangeItems()
     {

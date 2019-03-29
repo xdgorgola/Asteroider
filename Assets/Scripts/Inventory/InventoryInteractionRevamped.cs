@@ -5,18 +5,36 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class InventoryInteractionRevamped : MonoBehaviour
 {
+    /// <summary>
+    /// Which inventory in inventories the player is going 
+    /// to interact next
+    /// </summary>
     [SerializeField]
     private int actualInv = 0;
-    [SerializeField]
-    private bool interacting = false;
 
-    //private Inventory otherInv;
+    /// <summary>
+    /// Indicates if the player is interacting with another inventory
+    /// </summary>
+    private bool interacting = false;
+    /// <summary>
+    /// Indicates if the player got its inventory open
+    /// </summary>
+    private bool openInventory = false;
+
+    /// <summary>
+    /// Inventories in range
+    /// </summary>
     [SerializeField]
     private List<Inventory> inventories;
+    /// <summary>
+    /// Player inventory
+    /// </summary>
+    [SerializeField]
+    private Inventory playerInv;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        playerInv = GetComponent<Inventory>();
         inventories = new List<Inventory>();
     }
 
@@ -29,7 +47,7 @@ public class InventoryInteractionRevamped : MonoBehaviour
         if (PlayerInput.InteractionDown && inventories.Count > 0 && !interacting)
         {
             interacting = true;
-            InventorySystem.invSyst.StartInvInteraction(inventories[actualInv]);
+            InventorySystem.invSyst.StartInvInteraction(playerInv, inventories[actualInv]);
         }
 
         else if (PlayerInput.InteractionDown && inventories.Count > 0 && interacting)
@@ -45,6 +63,21 @@ public class InventoryInteractionRevamped : MonoBehaviour
                 actualInv = 0;
             }
         }
+
+        if (PlayerInput.InventoryDown)
+        {
+
+            if (!openInventory)
+            {
+                InventorySystem.invSyst.StartInvInteraction(playerInv);
+            }
+            else
+            {
+                InventorySystem.invSyst.StopInvInteraction();
+            }
+            openInventory = !openInventory;
+        }
+
     }
     
     public void RemoveInventory(Inventory toRemove)
