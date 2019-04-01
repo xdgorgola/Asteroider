@@ -9,17 +9,17 @@ public class InventorySystem : MonoBehaviour
     /// <summary>
     /// Inventario involucrado 1
     /// </summary>
-    public Inventory inv1;
+    private Inventory inv1;
     /// <summary>
     /// Inventario involucrado 2
     /// </summary>
-    public Inventory inv2;
+    private Inventory inv2;
 
     /// <summary>
     /// Slots de un inventario seleccionado.
     /// </summary>
-    public InventorySlot selSlot1;
-    public InventorySlot selSlot2;
+    private InventorySlot selSlot1;
+    private InventorySlot selSlot2;
 
     /// <summary>
     /// GameObjects asociados a las UI de los inventarios. Inventory1/Inventory2
@@ -40,11 +40,11 @@ public class InventorySystem : MonoBehaviour
         invSyst = this;   
     }
 
-    //private void Start()
-    //{
-    //    InitializeSlots(true);    
-    //}
-
+    /// <summary>
+    /// Starts player interaction with a single inventory or between two
+    /// </summary>
+    /// <param name="inv11">Inventory in the process</param>
+    /// <param name="inv22">Inventory in the process</param>
     public void StartInvInteraction(Inventory inv11, Inventory inv22 = null)
     {
         //Initializing first inventory objects.
@@ -65,6 +65,9 @@ public class InventorySystem : MonoBehaviour
         InitializeSlots();
     }
 
+    /// <summary>
+    /// Stops the player interaction with any inventory
+    /// </summary>
     public void StopInvInteraction()
     {
         inv1 = null;
@@ -74,9 +77,6 @@ public class InventorySystem : MonoBehaviour
             inv2 = null;
             inv2UI.SetActive(false);
         }
-        //inv1UI.SetActive(false);
-        //inv2UI.SetActive(false);
-        //inv2 = null;
     }
 
     /// <summary>
@@ -91,15 +91,13 @@ public class InventorySystem : MonoBehaviour
         if(slot.transform.parent.gameObject == inv1UI)
         {
             int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
-            inv1.inventory[pos] = item;
-            
+            inv1.AddItem(pos, item);            
         }
         else
         {
             int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
-            inv2.inventory[pos] = item;
+            inv2.AddItem(pos, item);
         }
-
     }
 
     /// <summary>
@@ -114,12 +112,12 @@ public class InventorySystem : MonoBehaviour
         if (slot.transform.parent.gameObject == inv1UI)
         {
             int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
-            inv1.inventory[pos] = null;
+            inv1.RemoveItem(pos);
         }
         else
         {
             int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
-            inv2.inventory[pos] = null;
+            inv2.RemoveItem(pos);
         }
     }
 
@@ -195,7 +193,6 @@ public class InventorySystem : MonoBehaviour
 
             selSlot1.isSelected = selSlot2.isSelected = false;
             selSlot1 = selSlot2 = null;
-
         }
     }
 }

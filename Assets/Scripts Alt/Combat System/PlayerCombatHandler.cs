@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCombatHandler : CombatSystemAlt
 {
+    public int actualWeapon { get; private set; } = 0;
+
     /// <summary>
     /// Where the weapon projectile/laser is spawned
     /// </summary>
@@ -11,19 +13,60 @@ public class PlayerCombatHandler : CombatSystemAlt
     private Transform shotSpawn;
 
     /// <summary>
-    /// Number of equippable weapons 
+    /// Script associated with the weapons inventory
     /// </summary>
-    [SerializeField]
-    private int numbOfWeapons = 3;
+    private WeaponInventories weaponsInv;
 
-    [SerializeField]
-    private int weaponEquipped = 0;
+    private void Awake()
+    {
+        weaponsInv = GetComponent<WeaponInventories>();
+    }
+
+    private void Start()
+    {
+        WeaponEquipped = (Weapon)weaponsInv.inventory[0];    
+    }
 
     private void Update()
     {
         if (PlayerInput.ShootInput && ReadyToShoot)
         {
             ShootWeapon(shotSpawn);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            NextWeapon();
+        }
+    }
+
+    /// <summary>
+    /// Changes weapon to the next one
+    /// </summary>
+    public void NextWeapon()
+    {
+        if (actualWeapon < weaponsInv.inventory.Length - 1)
+        {
+            if (weaponsInv.inventory[actualWeapon + 1] != null)
+            {
+                WeaponEquipped = (Weapon)weaponsInv.inventory[actualWeapon + 1]; 
+            }
+            else
+            {
+                WeaponEquipped = null;
+            }
+            actualWeapon += 1;
+        }
+        else
+        {
+            if (weaponsInv.inventory[0] != null)
+            {
+                WeaponEquipped = (Weapon)weaponsInv.inventory[0];
+            }
+            else
+            {
+                WeaponEquipped = null;         
+            }
+            actualWeapon = 0;
         }
     }
 }

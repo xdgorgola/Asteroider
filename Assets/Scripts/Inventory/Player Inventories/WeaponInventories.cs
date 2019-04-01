@@ -4,30 +4,43 @@ using UnityEngine;
 
 public class WeaponInventories : Inventory
 {
-     /// <summary>
-     /// Number of max equippable weapons
-     /// </summary>
-     [Tooltip("Numero maximo de armas que puede tener el inventario")]
-     [SerializeField]
-     private int weaponsInvMaxSize = 3;
-     /// <summary>
-     /// Size of weapon inventory
-     /// </summary>
-     [Tooltip("Tamano actual del inventario de armas")]
-     [SerializeField]
-     private int weaponsSize = 2;
-     
-     /// <summary>
-     /// Inventory with equipped weapons
-     /// </summary>
-     [SerializeField]
-     private Weapon[] weaponsInventory;
-     
-     /// <summary>
-     /// Initial weapons
-     /// </summary>
-     [Tooltip("Armas que tendra inicialmente")]
-     public Weapon[] initialWeapons;
+    //Script made just to override AddItem and RemoveItem methods in parent class Inventory
+    //because it is needed to update the player/enemy weapon if there is any change in their
+    //weapons inventory
 
+    /// <summary>
+    /// Same as parent class but now updates the equipped weapon.
+    /// </summary>
+    /// <param name="itemPos">Index for weapon insertion</param>
+    /// <param name="item">Item to add</param>
+    public override void AddItem(int itemPos, Item item)
+    {
+        inventory[itemPos] = item;
+        UpdateWeapon();
+    }
 
+    /// <summary>
+    /// Same as parent class but now updates the equipped weapon.
+    /// </summary>
+    /// <param name="itemPos">Index for weapon removal</param>
+    public override void RemoveItem(int itemPos)
+    {
+        inventory[itemPos] = null;
+        UpdateWeapon();
+    }
+
+    /// <summary>
+    /// Updates the player rquipped weapon in case of a inventory change
+    /// </summary>
+    /// <param name="weapon">Weapon to equip</param>
+    public void UpdateWeapon()
+    {
+        if (CompareTag("Player"))
+        {
+            Debug.Log("Updating!");
+            PlayerCombatHandler handler = GetComponent<PlayerCombatHandler>();
+            handler.WeaponEquipped = (Weapon)inventory[handler.actualWeapon];
+        }
+        //Make enemies etc handler case
+    }
 }

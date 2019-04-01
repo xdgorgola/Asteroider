@@ -81,7 +81,10 @@ public class CombatSystemAlt : MonoBehaviour
     {
         readyToShoot = false;
         Debug.Log("Reloading...");
-        yield return new WaitForSeconds(equippedWeapon.fireRate);
+        if (equippedWeapon != null)
+        {
+            yield return new WaitForSeconds(equippedWeapon.fireRate);
+        }
         Debug.Log("Reloaded!");
         readyToShoot = true;
     }

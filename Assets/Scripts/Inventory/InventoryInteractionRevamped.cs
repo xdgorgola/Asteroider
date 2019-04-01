@@ -29,12 +29,13 @@ public class InventoryInteractionRevamped : MonoBehaviour
     /// <summary>
     /// Player inventory
     /// </summary>
-    [SerializeField]
     private Inventory playerInv;
+    private Inventory weaponsInv;
 
     private void Awake()
     {
         playerInv = GetComponent<Inventory>();
+        weaponsInv = GetComponent<WeaponInventories>();
         inventories = new List<Inventory>();
     }
 
@@ -70,6 +71,19 @@ public class InventoryInteractionRevamped : MonoBehaviour
             if (!openInventory)
             {
                 InventorySystem.invSyst.StartInvInteraction(playerInv);
+            }
+            else
+            {
+                InventorySystem.invSyst.StopInvInteraction();
+            }
+            openInventory = !openInventory;
+        }
+
+        else if (PlayerInput.WeaponInventoryDown)
+        {
+            if (!openInventory)
+            {
+                InventorySystem.invSyst.StartInvInteraction(weaponsInv);
             }
             else
             {

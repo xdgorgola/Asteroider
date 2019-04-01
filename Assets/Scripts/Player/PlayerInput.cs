@@ -56,6 +56,16 @@ public class PlayerInput : MonoBehaviour
 
     private bool inventoryDown = false;
 
+    public static bool WeaponInventoryDown
+    {
+        get { return Manager.weaponInvDown; }
+    }
+
+    [SerializeField]
+    private string weaponInvButton = "Weapon Inventory";
+
+    private bool weaponInvDown = false;
+
     private void Awake()
     {
         Manager = this;
@@ -69,6 +79,8 @@ public class PlayerInput : MonoBehaviour
         shoot = Input.GetButton(shootButton);
         interactDown = Input.GetButtonDown("Interact");
         inventoryDown = Input.GetButtonDown("Inventory");
+
+        weaponInvDown = Input.GetButtonDown(weaponInvButton);
     }
 }
 
