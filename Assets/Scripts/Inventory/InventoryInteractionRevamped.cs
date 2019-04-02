@@ -16,14 +16,6 @@ public class InventoryInteractionRevamped : MonoBehaviour
     /// Indicates if the player is interacting with another inventory
     /// </summary>
     private bool interacting = false;
-    /// <summary>
-    /// Indicates if the player got its inventory open
-    /// </summary>
-    private bool openInventory = false;
-    /// <summary>
-    /// Indicates if the player got its weapons inventory open
-    /// </summary>
-    private bool openWeapons = false;
 
     /// <summary>
     /// Inventories in range
@@ -50,6 +42,8 @@ public class InventoryInteractionRevamped : MonoBehaviour
     //FIXED(Keep testing for cases): Open normal inv and weapons inv, then open the loot inv, then close the normal inv and finally try
     //to open the loot inv, it tries to remove an unknown inventory.
     
+    //TODO
+    //The last inventory FIX (isOpen bool) is not implemented to interactions inventories conditions (interacting bool still here)
 
     private void Update()
     {
@@ -57,12 +51,12 @@ public class InventoryInteractionRevamped : MonoBehaviour
         {
             actualInv = 0;
         }
+
         if (PlayerInput.InteractionDown && inventories.Count > 0 && !interacting)
         {
             interacting = true;
             InventorySystem.invSyst.AddInteraction(inventories[actualInv]);
         }
-
         else if (PlayerInput.InteractionDown && inventories.Count > 0 && interacting)
         {
             interacting = false;
@@ -80,7 +74,6 @@ public class InventoryInteractionRevamped : MonoBehaviour
         //Opening single inventories block start
         if (PlayerInput.InventoryDown)
         {
-
             if (!CheckInvStatus(playerInv))
             {
                 Debug.Log("Opening player inv...");
@@ -91,9 +84,7 @@ public class InventoryInteractionRevamped : MonoBehaviour
                 Debug.Log("Closing player inv...");
                 InventorySystem.invSyst.RemoveInteraction(playerInv);
             }
-            //openInventory = !openInventory;
         }
-
         else if (PlayerInput.WeaponInventoryDown)
         {
             if (!CheckInvStatus(weaponsInv))
@@ -106,10 +97,8 @@ public class InventoryInteractionRevamped : MonoBehaviour
                 Debug.Log("Closing weapons inv...");
                 InventorySystem.invSyst.RemoveInteraction(weaponsInv);
             }
-            //openWeapons = !openWeapons;
         }
         //Opening single inventories block end
-
     }
 
     /// <summary>
