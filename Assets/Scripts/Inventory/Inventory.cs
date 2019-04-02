@@ -45,10 +45,11 @@ public class Inventory : MonoBehaviour
         //Initializes array that will contain the inventory slots, is it really needed?
         //Seems like yes
         inventorySlots = new GameObject[maxInvSize];
+
+        //Iterating trough each slot GameObject and assigning them the items
         int i = 0;
-        foreach(Transform child in invObject.transform)
+        foreach (Transform child in invObject.transform)
         {
-            Debug.Log(i);
             inventorySlots[i] = child.gameObject;
             InventorySlot slot = child.GetComponent<InventorySlot>();
             if (i < invSize)

@@ -37,6 +37,10 @@ public class PlayerCombatHandler : CombatSystemAlt
         {
             NextWeapon();
         }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            PreviousWeapon();
+        }
     }
 
     /// <summary>
@@ -46,27 +50,30 @@ public class PlayerCombatHandler : CombatSystemAlt
     {
         if (actualWeapon < weaponsInv.inventory.Length - 1)
         {
-            if (weaponsInv.inventory[actualWeapon + 1] != null)
-            {
-                WeaponEquipped = (Weapon)weaponsInv.inventory[actualWeapon + 1]; 
-            }
-            else
-            {
-                WeaponEquipped = null;
-            }
+            WeaponEquipped = (Weapon)weaponsInv.inventory[actualWeapon + 1];
             actualWeapon += 1;
         }
         else
         {
-            if (weaponsInv.inventory[0] != null)
-            {
-                WeaponEquipped = (Weapon)weaponsInv.inventory[0];
-            }
-            else
-            {
-                WeaponEquipped = null;         
-            }
+            WeaponEquipped = (Weapon)weaponsInv.inventory[0];
             actualWeapon = 0;
+        }
+    }
+
+    /// <summary>
+    /// Changes weapon to the previous one
+    /// </summary>
+    public void PreviousWeapon()
+    {
+        if (actualWeapon > 0)
+        {
+            WeaponEquipped = (Weapon)weaponsInv.inventory[actualWeapon - 1];
+            actualWeapon -= 1;
+        }
+        else
+        {
+            WeaponEquipped = (Weapon)weaponsInv.inventory[weaponsInv.inventory.Length - 1];
+            actualWeapon = weaponsInv.inventory.Length - 1;
         }
     }
 }

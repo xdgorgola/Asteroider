@@ -20,6 +20,10 @@ public class InventoryInteractionRevamped : MonoBehaviour
     /// Indicates if the player got its inventory open
     /// </summary>
     private bool openInventory = false;
+    /// <summary>
+    /// Indicates if the player got its weapons inventory open
+    /// </summary>
+    private bool openWeapons = false;
 
     /// <summary>
     /// Inventories in range
@@ -30,6 +34,9 @@ public class InventoryInteractionRevamped : MonoBehaviour
     /// Player inventory
     /// </summary>
     private Inventory playerInv;
+    /// <summary>
+    /// Player weapons inventories
+    /// </summary>
     private Inventory weaponsInv;
 
     private void Awake()
@@ -48,13 +55,15 @@ public class InventoryInteractionRevamped : MonoBehaviour
         if (PlayerInput.InteractionDown && inventories.Count > 0 && !interacting)
         {
             interacting = true;
-            InventorySystem.invSyst.StartInvInteraction(playerInv, inventories[actualInv]);
+            //InventorySystem.invSyst.StartInvInteraction(playerInv, inventories[actualInv]);
+            InventorySystem.invSyst.AddInteraction(inventories[actualInv]);
         }
 
         else if (PlayerInput.InteractionDown && inventories.Count > 0 && interacting)
         {
             interacting = false;
-            InventorySystem.invSyst.StopInvInteraction();
+            //InventorySystem.invSyst.StopInvInteraction();
+            InventorySystem.invSyst.RemoveInteraction(inventories[actualInv]);
             if (actualInv < inventories.Count - 1)
             {
                 actualInv += 1;
@@ -65,35 +74,46 @@ public class InventoryInteractionRevamped : MonoBehaviour
             }
         }
 
+        //Opening single inventories block start
         if (PlayerInput.InventoryDown)
         {
 
             if (!openInventory)
             {
-                InventorySystem.invSyst.StartInvInteraction(playerInv);
+                InventorySystem.invSyst.AddInteraction(playerInv);
+                //InventorySystem.invSyst.StartInvInteraction(playerInv);
             }
             else
             {
-                InventorySystem.invSyst.StopInvInteraction();
+                InventorySystem.invSyst.RemoveInteraction(playerInv);
+                //InventorySystem.invSyst.StopInvInteraction();
             }
             openInventory = !openInventory;
         }
 
         else if (PlayerInput.WeaponInventoryDown)
         {
-            if (!openInventory)
+            if (!openWeapons)
             {
-                InventorySystem.invSyst.StartInvInteraction(weaponsInv);
+                InventorySystem.invSyst.AddInteraction(weaponsInv);
+                //InventorySystem.invSyst.StartInvInteraction(weaponsInv);
             }
             else
             {
-                InventorySystem.invSyst.StopInvInteraction();
+                InventorySystem.invSyst.RemoveInteraction(weaponsInv);
+                //InventorySystem.invSyst.StopInvInteraction();
             }
-            openInventory = !openInventory;
+            openWeapons = !openWeapons;
         }
+        //Opening single inventories block end
 
     }
-    
+
+    /// <summary>
+    /// Removes inventory from the inventories in ranges.
+    /// It also updates the actual inv
+    /// </summary>
+    /// <param name="toRemove">Inventory to be removed</param>
     public void RemoveInventory(Inventory toRemove)
     {
         inventories.Remove(toRemove);
@@ -110,6 +130,7 @@ public class InventoryInteractionRevamped : MonoBehaviour
         }
     }
 
+    //Here we add the inventory to the invetories list just when the players gets in range
     private void OnTriggerEnter2D(Collider2D collision)
     {
        if (collision.CompareTag("Test_Interaction"))
@@ -118,6 +139,7 @@ public class InventoryInteractionRevamped : MonoBehaviour
         }
     }
 
+    //Here the collision inventory is removed when it gets out of range
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Test_Interaction"))

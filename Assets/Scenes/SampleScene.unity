@@ -2211,7 +2211,7 @@ GameObject:
   - component: {fileID: 1082410573}
   - component: {fileID: 1082410572}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Canvas//Player Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2752,6 +2752,28 @@ Transform:
   m_Father: {fileID: 1654897395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1504704666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1101849617002165411, guid: 7e85af27c9f9d9642a8fb522aed9ccb0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4297421592963213780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1504704668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504704666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e168b672ae4a6c74790538e38bab40ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invSize: 0
+  inventory: []
+  invObject: {fileID: 0}
+  inventorySlots: []
 --- !u!1 &1581294062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2839,12 +2861,12 @@ GameObject:
   - component: {fileID: 1654897393}
   - component: {fileID: 1654897391}
   - component: {fileID: 1654897390}
-  - component: {fileID: 1654897388}
-  - component: {fileID: 1654897399}
   - component: {fileID: 1654897396}
   - component: {fileID: 1654897398}
   - component: {fileID: 1654897400}
   - component: {fileID: 1654897401}
+  - component: {fileID: 1654897399}
+  - component: {fileID: 1654897388}
   - component: {fileID: 1654897389}
   m_Layer: 0
   m_Name: Player
@@ -2898,8 +2920,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invSize: 4
-  inventory: []
-  invObject: {fileID: 277815640}
+  inventory:
+  - {fileID: 11400000, guid: 04cb544eaaf000045aff3b597d8f858d, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 04cb544eaaf000045aff3b597d8f858d, type: 2}
+  - {fileID: 0}
+  invObject: {fileID: 188764973}
   inventorySlots: []
 --- !u!114 &1654897390
 MonoBehaviour:
@@ -8054,7 +8080,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 4297421592963213780}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1504704666}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a6ba129d5b52d2469e41408f4a60848, type: 3}
