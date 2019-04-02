@@ -80,9 +80,12 @@ public class CombatSystemAlt : MonoBehaviour
     public IEnumerator CoolDown()
     {
         readyToShoot = false;
-        Debug.Log("Reloading...");
-        yield return new WaitForSeconds(equippedWeapon.fireRate);
-        Debug.Log("Reloaded!");
+        //Debug.Log("Reloading...");
+        if (equippedWeapon != null)
+        {
+            yield return new WaitForSeconds(equippedWeapon.fireRate);
+        }
+        //Debug.Log("Reloaded!");
         readyToShoot = true;
     }
 

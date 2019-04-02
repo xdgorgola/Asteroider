@@ -7,22 +7,24 @@ public class InventorySystem : MonoBehaviour
     public static InventorySystem invSyst;
 
     /// <summary>
-    /// Inventario involucrado 1
+    /// Involved inventory 1
     /// </summary>
-    public Inventory inv1;
+    [SerializeField]
+    private Inventory inv1;
     /// <summary>
-    /// Inventario involucrado 2
+    /// Involved inventory 2
     /// </summary>
-    public Inventory inv2;
+    [SerializeField]
+    private Inventory inv2;
 
     /// <summary>
-    /// Slots de un inventario seleccionado.
+    /// Selected slots from inventories
     /// </summary>
-    public InventorySlot selSlot1;
-    public InventorySlot selSlot2;
+    private InventorySlot selSlot1;
+    private InventorySlot selSlot2;
 
     /// <summary>
-    /// GameObjects asociados a las UI de los inventarios. Inventory1/Inventory2
+    /// GameObjects related to the inventories UI
     /// </summary>
     [SerializeField]
     private GameObject inv1UI;
@@ -30,7 +32,7 @@ public class InventorySystem : MonoBehaviour
     private GameObject inv2UI;
 
     /// <summary>
-    /// GameObjects asociados a los slots de los inventarios.
+    /// GameObjects related to the inventories slot
     /// </summary>
     private GameObject[] inv1Slots;
     private GameObject[] inv2Slots;
@@ -40,39 +42,77 @@ public class InventorySystem : MonoBehaviour
         invSyst = this;   
     }
 
-    //private void Start()
-    //{
-    //    InitializeSlots(true);    
-    //}
-
-    public void StartInvInteraction(Inventory inv11, Inventory inv22 = null)
+    /// <summary>
+    /// Starts the interaction with invToAdd inventory
+    /// </summary>
+    /// <param name="invToAdd">Inventory to add interaction</param>
+    public void AddInteraction(Inventory invToAdd)
     {
-        //Initializing first inventory objects.
-        inv1 = inv11;
-        inv1UI = inv11.invObject;
-        inv1UI.SetActive(true);
-        inv1.InitializeInventory();
-
-        //Initializing second inventory objects
-        if (inv22 != null)
-        {            
-            inv2 = inv22;
-            inv2UI = inv22.invObject;
-            inv2UI.SetActive(true);            
-            inv2.InitializeInventory();            
+        Debug.Log("Starting AddInteraction() method");
+        //If inv1 is available
+        if (inv1 == null && inv2 == null)
+        {
+            Debug.Log("Adding" + invToAdd);
+            invToAdd.IsOpen = true;
+            inv1 = invToAdd;
+            inv1UI = inv1.invObject;
+            inv1UI.SetActive(true);
+            inv1.InitializeInventory();
         }
-        //Initializing slots
+        else if (inv1 == null && inv2 != null)
+        {
+            Debug.Log("Adding" + invToAdd);
+            invToAdd.IsOpen = true;
+            inv1 = invToAdd;
+            inv1UI = inv1.invObject;
+            inv1UI.SetActive(true);
+            inv1.InitializeInventory();
+        }
+        //If inv2 is available
+        else if (inv1 != null && inv2 == null)
+        {
+            Debug.Log("Adding" + invToAdd);
+            invToAdd.IsOpen = true;
+            inv2 = invToAdd;
+            inv2UI = inv2.invObject;
+            inv2UI.SetActive(true);
+            inv2.InitializeInventory();
+        }
+        //If neither of the invs are availables
+        else if (inv1 != null && inv2 != null)
+        {
+            Debug.Log("The bug is consecuence of changing openInventory, openWeapons when some inventory cannot be oppened or is replaced by another. ");
+            Debug.Log("Returning a bool to check if the function made it purpose can solve this.");
+            RemoveInteraction(inv1);
+            AddInteraction(invToAdd);
+        }
         InitializeSlots();
     }
 
-    public void StopInvInteraction()
+    /// <summary>
+    /// Stops the interaction with invtoRemove inventory
+    /// </summary>
+    /// <param name="invToRemove">Inventory to stop interacting with</param>
+    public void RemoveInteraction(Inventory invToRemove)
     {
-        inv1 = null;
-        inv1UI.SetActive(false);
-        if (inv2 != null)
+        invToRemove.IsOpen = false;
+        //If invToRemove is at inv1
+        if (invToRemove == inv1)
+        {
+            inv1 = null;
+            inv1UI.SetActive(false);
+            //inv1UI = null; //It could be left active to access faster next time
+        }
+        //If invToRemove is at inv2
+        else if (invToRemove == inv2)
         {
             inv2 = null;
             inv2UI.SetActive(false);
+            //inv2UI = null; //It could be left active to access faster next time
+        }
+        else
+        {
+            Debug.LogError("The inventory to remove isn't an active inventory in InventorySystem.cs!");
         }
     }
 
@@ -88,15 +128,13 @@ public class InventorySystem : MonoBehaviour
         if(slot.transform.parent.gameObject == inv1UI)
         {
             int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
-            inv1.inventory[pos] = item;
-            
+            inv1.AddItem(pos, item);            
         }
         else
         {
             int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
-            inv2.inventory[pos] = item;
+            inv2.AddItem(pos, item);
         }
-
     }
 
     /// <summary>
@@ -111,12 +149,12 @@ public class InventorySystem : MonoBehaviour
         if (slot.transform.parent.gameObject == inv1UI)
         {
             int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
-            inv1.inventory[pos] = null;
+            inv1.RemoveItem(pos);
         }
         else
         {
             int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
-            inv2.inventory[pos] = null;
+            inv2.RemoveItem(pos);
         }
     }
 
@@ -184,7 +222,7 @@ public class InventorySystem : MonoBehaviour
     /// </summary>
     public void ExchangeItems()
     {
-        if(selSlot1 != null && selSlot2 != null)
+        if (selSlot1 != null && selSlot2 != null)
         {
             Item temp = selSlot1.slotItem;
             AddItemToSlot(selSlot2.slotItem, selSlot1);
@@ -192,7 +230,6 @@ public class InventorySystem : MonoBehaviour
 
             selSlot1.isSelected = selSlot2.isSelected = false;
             selSlot1 = selSlot2 = null;
-
         }
     }
 }
