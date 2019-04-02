@@ -30,7 +30,7 @@ public class WeaponInventories : Inventory
     }
 
     /// <summary>
-    /// Updates the player rquipped weapon in case of a inventory change
+    /// Updates the player equipped weapon in case of a inventory change
     /// </summary>
     /// <param name="weapon">Weapon to equip</param>
     public void UpdateWeapon()

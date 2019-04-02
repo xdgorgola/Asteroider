@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public bool IsOpen
+    {
+        get { return isOpen; }
+        set { isOpen = value; }
+    }
+
+    private bool isOpen = false;
+
     /// <summary>
     /// Maximun size of the inventory. Is given by the number of sltos in invObject.
     /// </summary>
