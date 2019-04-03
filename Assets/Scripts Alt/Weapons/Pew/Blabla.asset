@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b3c1a658b81d64a8be5d01c9ffdb60, type: 3}
-  m_Name: salu2_Laser
+  m_Script: {fileID: 11500000, guid: 85c9ce50830a0ea4b9892a3a8ec19c7d, type: 3}
+  m_Name: Blabla
   m_EditorClassIdentifier: 
   iName: Hay algo
   iDescription: 
-  iImage: {fileID: 21300000, guid: c9c599b9f36e97e458d7c8fbf80e0de8, type: 3}
+  iImage: {fileID: 21300000, guid: ce457a5419819874f83dcddcf4664510, type: 3}
   damage: 0
-  fireRate: 1
-  projectileSpeed: 10
-  projectileSprite: {fileID: 21300000, guid: 36ad7c5f79f61864893190b8d799833e, type: 3}
+  fireRate: 0
+  projectileSpeed: 0
+  projectileSprite: {fileID: 21300000, guid: ce457a5419819874f83dcddcf4664510, type: 3}
+  isBolt: 0
+  isContinuous: 0

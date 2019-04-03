@@ -39,7 +39,7 @@ public class InventoryInteractionRevamped : MonoBehaviour
     }
 
     //ISSUES
-    //FIXED(Keep testing for cases): Open normal inv and weapons inv, then open the loot inv, then close the normal inv and finally try
+    //FIXED-PARTIALLY(Keep testing for cases): Open normal inv and weapons inv, then open the loot inv, then close the normal inv and finally try
     //to open the loot inv, it tries to remove an unknown inventory.
     
     //TODO
