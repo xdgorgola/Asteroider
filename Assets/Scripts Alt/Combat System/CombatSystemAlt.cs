@@ -36,8 +36,6 @@ public class CombatSystemAlt : MonoBehaviour
         GameObject projectile = boltPool.GetFromPool();
         BoltProjectile projManager = projectile.GetComponent<BoltProjectile>();
         projManager.SpawnProjectile(spawnT, equippedWeapon.projectileSprite, equippedWeapon.projectileSpeed);
-        projectile.SetActive(true);
-
     }
 
     /// <summary>
@@ -49,7 +47,6 @@ public class CombatSystemAlt : MonoBehaviour
         if (equippedWeapon != null)
         {
             CheckCorrectWeaponSetup(equippedWeapon);
-
             if (equippedWeapon.isBolt)
             {
                 ShootBolt(spawn);

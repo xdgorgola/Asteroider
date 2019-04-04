@@ -12,11 +12,6 @@ public class BoltPool : MonoBehaviour
     public GameObject projectile;
     public List<GameObject> projectPool;
 
-    private void Awake()
-    {
-        //boltPool = this;
-    }
-
     void Start()
     {
         //Intializing pool

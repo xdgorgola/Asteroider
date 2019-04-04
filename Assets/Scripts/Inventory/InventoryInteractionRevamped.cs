@@ -42,7 +42,7 @@ public class InventoryInteractionRevamped : MonoBehaviour
     //FIXED-PARTIALLY(Keep testing for cases): Open normal inv and weapons inv, then open the loot inv, then close the normal inv and finally try
     //to open the loot inv, it tries to remove an unknown inventory.
     
-    //TODO
+    //TO-DO
     //The last inventory FIX (isOpen bool) is not implemented to interactions inventories conditions (interacting bool still here)
 
     private void Update()
@@ -51,7 +51,6 @@ public class InventoryInteractionRevamped : MonoBehaviour
         {
             actualInv = 0;
         }
-
         if (PlayerInput.InteractionDown && inventories.Count > 0 && !interacting)
         {
             interacting = true;
