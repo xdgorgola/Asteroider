@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatSystemAlt : MonoBehaviour
+public class CombatSystem : MonoBehaviour
 {
     /// <summary>
     /// Indicates if the weapon can fire

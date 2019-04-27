@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class InventoryInteractionRevamped : MonoBehaviour
+public class InventoryInteraction : MonoBehaviour
 {
     /// <summary>
     /// Which inventory in inventories the player is going 

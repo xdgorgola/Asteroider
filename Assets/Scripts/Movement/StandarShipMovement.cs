@@ -21,7 +21,7 @@ public class StandarShipMovement : MonoBehaviour
     public void Update()
     {
         Rotate(camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
-        Debug.DrawLine(transform.position, camera.ScreenToWorldPoint(Input.mousePosition), Color.red, 1f);
+        //Debug.DrawLine(transform.position, camera.ScreenToWorldPoint(Input.mousePosition), Color.red, 1f);
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(transform.right.normalized * movementSpeed * Time.deltaTime, Space.World);

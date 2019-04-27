@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombatHandler : CombatSystemAlt
+public class PlayerCombatHandler : CombatSystem
 {
     public int actualWeapon { get; private set; } = 0;
 

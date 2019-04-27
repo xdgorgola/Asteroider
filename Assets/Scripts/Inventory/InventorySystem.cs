@@ -123,17 +123,17 @@ public class InventorySystem : MonoBehaviour
     /// <param name="slot">Slot to modify</param>
     public void AddItemToSlot(Item item, InventorySlot slot)
     {
-        slot.AddItemToSlot(item);
+        //slot.AddItemToSlot(item);
         //Checks which inventory the slot belongs to
         if(slot.transform.parent.gameObject == inv1UI)
         {
             int pos = System.Array.IndexOf(inv1Slots, slot.gameObject);
-            inv1.AddItem(pos, item);            
+            inv1.AddItem(pos, item, slot);            
         }
         else
         {
             int pos = System.Array.IndexOf(inv2Slots, slot.gameObject);
-            inv2.AddItem(pos, item);
+            inv2.AddItem(pos, item, slot);
         }
     }
 

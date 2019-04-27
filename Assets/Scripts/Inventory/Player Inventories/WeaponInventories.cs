@@ -13,10 +13,24 @@ public class WeaponInventories : Inventory
     /// </summary>
     /// <param name="itemPos">Index for weapon insertion</param>
     /// <param name="item">Item to add</param>
-    public override void AddItem(int itemPos, Item item)
+    public override void AddItem(int itemPos, Item item, InventorySlot slot)
     {
-        inventory[itemPos] = item;
-        UpdateWeapon();
+        if (item == null)
+        {
+            inventory[itemPos] = item;
+            slot.AddItemToSlot(item);
+            UpdateWeapon();
+            return;
+        }
+
+        if(item.GetType() == typeof(Weapon))
+        {
+            inventory[itemPos] = item;
+            slot.AddItemToSlot(item);
+            UpdateWeapon();
+            return;
+        }
+        Debug.Log("Item de tipo incorrecto.");
     }
 
     /// <summary>

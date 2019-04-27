@@ -79,9 +79,10 @@ public class Inventory : MonoBehaviour
     /// </summary>
     /// <param name="itemPos">Index to add the item</param>
     /// <param name="item">Item to add</param>
-    public virtual void AddItem(int itemPos, Item item)
+    public virtual void AddItem(int itemPos, Item item, InventorySlot slot)
     {
         inventory[itemPos] = item;
+        slot.AddItemToSlot(item);
     }
 
     /// <summary>
