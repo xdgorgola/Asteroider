@@ -37,7 +37,6 @@ public class Inventory : MonoBehaviour
     /// Slots of the inventoru
     /// </summary>
     public GameObject[] inventorySlots;
-    //public GameObject attachedUI;
 
     private void Start()
     {
@@ -69,6 +68,7 @@ public class Inventory : MonoBehaviour
                 slot.slotItem = null;
                 child.gameObject.SetActive(false);
             }
+            slot.ChangeInv(this);
             slot.UpdateSlot();
             i += 1;            
         }
@@ -81,6 +81,7 @@ public class Inventory : MonoBehaviour
     /// <param name="item">Item to add</param>
     public virtual void AddItem(int itemPos, Item item, InventorySlot slot)
     {
+        Debug.Log(itemPos);
         inventory[itemPos] = item;
         slot.AddItemToSlot(item);
     }
@@ -92,6 +93,11 @@ public class Inventory : MonoBehaviour
     public virtual void RemoveItem(int itemPos)
     {
         inventory[itemPos] = null;
+    }
+
+    public virtual bool CorrectTypeItem(Item itemToCheck)
+    {
+        return true;
     }
 
 }

@@ -12,6 +12,13 @@ public class InventorySlot : MonoBehaviour
     [HideInInspector]
     public Image slotImage;
 
+    public Inventory Inventory
+    {
+        get { return actualInv; }
+        set { ChangeInv(value); }
+    }
+    private Inventory actualInv = null;
+
     private void Awake()
     {
         slotImage = transform.Find("Item Button").transform.Find("Item Icon").GetComponent<Image>();
@@ -50,5 +57,10 @@ public class InventorySlot : MonoBehaviour
         {
             slotImage.sprite = null;
         }
+    }
+
+    public void ChangeInv(Inventory inv)
+    {
+        actualInv = inv;
     }
 }

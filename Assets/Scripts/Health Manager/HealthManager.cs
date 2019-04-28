@@ -1,21 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
+public class LifeEvents : UnityEvent { }
 public class HealthManager : MonoBehaviour
 {
     public int maxHealth = 100;
-    public float health = 100;
+    public float Health
+    {
+        get { return health; }
+    }
+    private float health = 100;
+
+    public LifeEvents onLifeChange = new LifeEvents();
 
     //Una lista con las partes
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.PageUp))
         {
             AddHealth(10f);
         }
-        else if (Input.GetKeyDown(KeyCode.I))
+        else if (Input.GetKeyDown(KeyCode.PageDown))
         {
             ReduceHealth(10f);
         }
@@ -31,12 +39,7 @@ public class HealthManager : MonoBehaviour
         {
             health += add;
         }
-
-        //Hacer chequeo de si es el jugador y cambia la UI
-        if (gameObject.CompareTag("Player"))
-        {
-            gameObject.GetComponent<PlayerUI>().hpText.text = "HP: " + health;
-        }
+        onLifeChange.Invoke();
     }
 
     public void ReduceHealth(float reduce)
@@ -49,12 +52,7 @@ public class HealthManager : MonoBehaviour
         {
             health -= reduce;
         }
-       
-        //Hacer chequeo de si es el jugador y cambia la UI
-        if (gameObject.CompareTag("Player"))
-        {
-            gameObject.GetComponent<PlayerUI>().hpText.text = "HP: " + health;
-        }
+        onLifeChange.Invoke();
 
     }
 

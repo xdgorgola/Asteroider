@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class MouseCameraFollower : MonoBehaviour
 {
     /// <summary>
@@ -32,6 +31,10 @@ public class MouseCameraFollower : MonoBehaviour
     [Range(0,1)]
     private float smoothAmout = 0.125f;
 
+    [SerializeField]
+    [Range(4,20)]
+    private float mouseRadius = 4f;
+
     private Vector3 velocity = Vector3.zero;
 
     private void Awake()
@@ -42,21 +45,27 @@ public class MouseCameraFollower : MonoBehaviour
 
     private void LateUpdate()
     {
-        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        Vector3 direction = (mousePos - target.position).normalized;
-        float distance;
-        if ((mousePos - target.position).magnitude < 4)
-        {
-            distance = 0;
-        }
-        else
-        {
-            distance = Mathf.Clamp((mousePos - target.position).magnitude, 0f, 10f);
-        }
-        
-        Vector3 desiredPosition = target.position + offset + (direction * distance) + mouseOffset;
+        //mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        //mousePos.z = 0;
+        //Vector3 direction = (mousePos - target.position).normalized;
+        //float distance;
+        //if ((mousePos - target.position).magnitude < mouseRadius)
+        //{
+        //    distance = 0;
+        //}
+        //else
+        //{
+        //    distance = Mathf.Clamp((mousePos - target.position).magnitude, 0f, 10f);
+        //}
+
+        Vector3 desiredPosition = target.position + offset; //+ (direction * distance) + mouseOffset;
         Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothAmout);
         transform.position = smoothedPosition;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(target.position, mouseRadius);
     }
 }

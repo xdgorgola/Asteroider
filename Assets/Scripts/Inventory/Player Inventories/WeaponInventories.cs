@@ -15,22 +15,11 @@ public class WeaponInventories : Inventory
     /// <param name="item">Item to add</param>
     public override void AddItem(int itemPos, Item item, InventorySlot slot)
     {
-        if (item == null)
-        {
-            inventory[itemPos] = item;
-            slot.AddItemToSlot(item);
-            UpdateWeapon();
-            return;
-        }
-
-        if(item.GetType() == typeof(Weapon))
-        {
-            inventory[itemPos] = item;
-            slot.AddItemToSlot(item);
-            UpdateWeapon();
-            return;
-        }
-        Debug.Log("Item de tipo incorrecto.");
+        Debug.Log(itemPos);
+        inventory[itemPos] = item;
+        slot.AddItemToSlot(item);
+        UpdateWeapon();
+        return;
     }
 
     /// <summary>
@@ -56,5 +45,18 @@ public class WeaponInventories : Inventory
             handler.WeaponEquipped = (Weapon)inventory[handler.actualWeapon];
         }
         //Make enemies etc handler case
+    }
+
+    public override bool CorrectTypeItem(Item itemToCheck)
+    {
+        if (itemToCheck == null)
+        {
+            return true;
+        }
+        if (itemToCheck.GetType() == typeof(Weapon))
+        {
+            return true;
+        }
+        return false;
     }
 }

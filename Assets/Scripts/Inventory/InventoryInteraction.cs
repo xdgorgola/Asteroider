@@ -59,7 +59,7 @@ public class InventoryInteraction : MonoBehaviour
         else if (PlayerInput.InteractionDown && inventories.Count > 0 && interacting)
         {
             interacting = false;
-            InventorySystem.invSyst.RemoveInteraction(inventories[actualInv]);
+            //InventorySystem.invSyst.RemoveInteraction(inventories[actualInv]);
             if (actualInv < inventories.Count - 1)
             {
                 actualInv += 1;

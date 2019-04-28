@@ -6,19 +6,22 @@ public class ShipPartsInventory : Inventory
 {
     public override void AddItem(int itemPos, Item item, InventorySlot slot)
     {
-        if (item == null)
-        {
-            inventory[itemPos] = item;
-            slot.AddItemToSlot(item);
-            return;
-        }
+        Debug.Log(itemPos);
+        inventory[itemPos] = item;
+        slot.AddItemToSlot(item);
+        return;
+    }
 
-        if (item.GetType() == typeof(ShipPart))
+    public override bool CorrectTypeItem(Item itemToCheck)
+    {
+        if (itemToCheck == null)
         {
-            inventory[itemPos] = item;
-            slot.AddItemToSlot(item);
-            return;
+            return true;
         }
-        Debug.Log("Item de tipo incorrecto.");
+        if (itemToCheck.GetType() == typeof(ShipPart))
+        {
+            return true;
+        }
+        return false;
     }
 }
