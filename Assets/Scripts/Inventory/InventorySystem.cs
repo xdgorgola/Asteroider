@@ -46,47 +46,8 @@ public class InventorySystem : MonoBehaviour
     /// Starts the interaction with invToAdd inventory
     /// </summary>
     /// <param name="invToAdd">Inventory to add interaction</param>
-    public void AddInteraction(Inventory invToAdd)
+    public void OpenInventory(Inventory invToAdd)
     {
-        Debug.Log("Starting AddInteraction() method");
-        //If inv1 is available
-        //if (inv1 == null && inv2 == null)
-        //{
-        //    Debug.Log("Adding" + invToAdd);
-        //    invToAdd.IsOpen = true;
-        //    inv1 = invToAdd;
-        //    inv1UI = inv1.invObject;
-        //    inv1UI.SetActive(true);
-        //    inv1.InitializeInventory();
-        //}
-        //else if (inv1 == null && inv2 != null)
-        //{
-        //    Debug.Log("Adding" + invToAdd);
-        //    invToAdd.IsOpen = true;
-        //    inv1 = invToAdd;
-        //    inv1UI = inv1.invObject;
-        //    inv1UI.SetActive(true);
-        //    inv1.InitializeInventory();
-        //}
-        ////If inv2 is available
-        //else if (inv1 != null && inv2 == null)
-        //{
-        //    Debug.Log("Adding" + invToAdd);
-        //    invToAdd.IsOpen = true;
-        //    inv2 = invToAdd;
-        //    inv2UI = inv2.invObject;
-        //    inv2UI.SetActive(true);
-        //    inv2.InitializeInventory();
-        //}
-        ////If neither of the invs are availables
-        //else if (inv1 != null && inv2 != null)
-        //{
-        //    Debug.Log("The bug is consecuence of changing openInventory, openWeapons when some inventory cannot be oppened or is replaced by another. ");
-        //    Debug.Log("Returning a bool to check if the function made it purpose can solve this.");
-        //    RemoveInteraction(inv1);
-        //    AddInteraction(invToAdd);
-        //}
-        //InitializeSlots();
         invToAdd.InitializeInventory();
         invToAdd.IsOpen = true;
         invToAdd.invObject.SetActive(true);
@@ -96,7 +57,7 @@ public class InventorySystem : MonoBehaviour
     /// Stops the interaction with invtoRemove inventory
     /// </summary>
     /// <param name="invToRemove">Inventory to stop interacting with</param>
-    public void RemoveInteraction(Inventory invToRemove)
+    public void CloseInventory(Inventory invToRemove)
     {
         invToRemove.IsOpen = false;
         invToRemove.invObject.SetActive(false);
@@ -154,6 +115,7 @@ public class InventorySystem : MonoBehaviour
     {
         slot.RemoveItemFromSlot();
         //Checks which inventory the slot belongs to
+        if (slot.slotItem == null) return;
 
         if (slot.transform.parent.gameObject == inv1UI)
         {
@@ -184,7 +146,7 @@ public class InventorySystem : MonoBehaviour
                 inv1 = slot.Inventory;
                 inv1UI = inv1.invObject;
                 selSlot1 = slot;
-                inv1.InitializeInventory();
+                //inv1.InitializeInventory();
                 InitializeSlots();
                 ExchangeItems();
                 return;
@@ -195,7 +157,7 @@ public class InventorySystem : MonoBehaviour
                 inv2 = slot.Inventory;
                 inv2UI = inv2.invObject;
                 selSlot2 = slot;
-                inv2.InitializeInventory();
+                //inv2.InitializeInventory();
                 InitializeSlots();
                 ExchangeItems();
                 return;

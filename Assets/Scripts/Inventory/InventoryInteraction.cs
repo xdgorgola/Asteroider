@@ -54,12 +54,12 @@ public class InventoryInteraction : MonoBehaviour
         if (PlayerInput.InteractionDown && inventories.Count > 0 && !interacting)
         {
             interacting = true;
-            InventorySystem.invSyst.AddInteraction(inventories[actualInv]);
+            InventorySystem.invSyst.OpenInventory(inventories[actualInv]);
         }
         else if (PlayerInput.InteractionDown && inventories.Count > 0 && interacting)
         {
             interacting = false;
-            //InventorySystem.invSyst.RemoveInteraction(inventories[actualInv]);
+            InventorySystem.invSyst.CloseInventory(inventories[actualInv]);
             if (actualInv < inventories.Count - 1)
             {
                 actualInv += 1;
@@ -76,12 +76,12 @@ public class InventoryInteraction : MonoBehaviour
             if (!CheckInvStatus(playerInv))
             {
                 Debug.Log("Opening player inv...");
-                InventorySystem.invSyst.AddInteraction(playerInv);
+                InventorySystem.invSyst.OpenInventory(playerInv);
             }
             else
             {
                 Debug.Log("Closing player inv...");
-                InventorySystem.invSyst.RemoveInteraction(playerInv);
+                InventorySystem.invSyst.CloseInventory(playerInv);
             }
         }
         else if (PlayerInput.WeaponInventoryDown)
@@ -89,12 +89,12 @@ public class InventoryInteraction : MonoBehaviour
             if (!CheckInvStatus(weaponsInv))
             {
                 Debug.Log("Opening weapons inv...");
-                InventorySystem.invSyst.AddInteraction(weaponsInv);
+                InventorySystem.invSyst.OpenInventory(weaponsInv);
             }
             else
             {
                 Debug.Log("Closing weapons inv...");
-                InventorySystem.invSyst.RemoveInteraction(weaponsInv);
+                InventorySystem.invSyst.CloseInventory(weaponsInv);
             }
         }
         //Opening single inventories block end

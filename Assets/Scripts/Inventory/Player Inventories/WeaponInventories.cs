@@ -8,28 +8,10 @@ public class WeaponInventories : Inventory
     //because it is needed to update the player/enemy weapon if there is any change in their
     //weapons inventory
 
-    /// <summary>
-    /// Same as parent class but now updates the equipped weapon.
-    /// </summary>
-    /// <param name="itemPos">Index for weapon insertion</param>
-    /// <param name="item">Item to add</param>
-    public override void AddItem(int itemPos, Item item, InventorySlot slot)
+    protected override void Start()
     {
-        Debug.Log(itemPos);
-        inventory[itemPos] = item;
-        slot.AddItemToSlot(item);
-        UpdateWeapon();
-        return;
-    }
-
-    /// <summary>
-    /// Same as parent class but now updates the equipped weapon.
-    /// </summary>
-    /// <param name="itemPos">Index for weapon removal</param>
-    public override void RemoveItem(int itemPos)
-    {
-        inventory[itemPos] = null;
-        UpdateWeapon();
+        base.Start();
+        onInventoryChange.AddListener(UpdateWeapon);
     }
 
     /// <summary>

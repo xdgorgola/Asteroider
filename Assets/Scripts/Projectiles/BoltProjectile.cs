@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class BoltProjectile : MonoBehaviour
 {
-    public float projSpeed = 25f;
+    /// <summary>
+    /// Projectile movement speed
+    /// </summary>
+    [SerializeField]
+    private float projSpeed = 25f;
+    /// <summary>
+    /// Bolt damage
+    /// </summary>
     private float boltDamage = 0f;
-    [HideInInspector]
-    public Sprite projSprite;
+    /// <summary>
+    /// Bolt sprite
+    /// </summary>
+    private Sprite projSprite;
 
+    /// <summary>
+    /// Sprite renderer component
+    /// </summary>
     private SpriteRenderer sprRenderer;
 
     private void Awake()
@@ -21,6 +33,12 @@ public class BoltProjectile : MonoBehaviour
         Invoke("DestroyP", 5f);
     }
 
+    /// <summary>
+    /// Spawn a projectile in spawnTrans
+    /// </summary>
+    /// <param name="spawnTrans">Position/Rotation for the projecitle to spawn</param>
+    /// <param name="spr">Projectile sprite</param>
+    /// <param name="speed">Projectile speed</param>
     public void SpawnProjectile(Transform spawnTrans, Sprite spr, float speed)
     {
         gameObject.transform.position = spawnTrans.position;

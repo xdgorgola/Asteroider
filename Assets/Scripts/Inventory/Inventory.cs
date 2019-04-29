@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
+public class InventoryEvent : UnityEvent { }
 public class Inventory : MonoBehaviour
 {
     public bool IsOpen
@@ -20,7 +22,8 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// Size of the inventory
     /// </summary>
-    public int invSize;
+    [SerializeField]
+    private int invSize;
 
     /// <summary>
     /// Inventory
@@ -38,7 +41,9 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public GameObject[] inventorySlots;
 
-    private void Start()
+    public InventoryEvent onInventoryChange = new InventoryEvent();
+
+    protected virtual void Start()
     {
         maxInvSize = invObject.transform.childCount;
         invObject.SetActive(false);
@@ -61,6 +66,7 @@ public class Inventory : MonoBehaviour
             InventorySlot slot = child.GetComponent<InventorySlot>();
             if (i < invSize)
             {
+                Debug.Log("xd");
                 slot.slotItem = inventory[i];
             }
             else
@@ -81,9 +87,9 @@ public class Inventory : MonoBehaviour
     /// <param name="item">Item to add</param>
     public virtual void AddItem(int itemPos, Item item, InventorySlot slot)
     {
-        Debug.Log(itemPos);
         inventory[itemPos] = item;
         slot.AddItemToSlot(item);
+        onInventoryChange.Invoke();
     }
 
     /// <summary>
@@ -93,8 +99,14 @@ public class Inventory : MonoBehaviour
     public virtual void RemoveItem(int itemPos)
     {
         inventory[itemPos] = null;
+        onInventoryChange.Invoke();
     }
 
+    /// <summary>
+    /// Checks if the item can be added to the inventory
+    /// </summary>
+    /// <param name="itemToCheck">Item to check if can be added</param>
+    /// <returns></returns>
     public virtual bool CorrectTypeItem(Item itemToCheck)
     {
         return true;
