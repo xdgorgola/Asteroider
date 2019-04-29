@@ -122,7 +122,6 @@ public class HealthManager : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-
         if (shield >= damage)
         {
             ReduceShield(damage);

@@ -30,11 +30,14 @@ public class InventoryInteraction : MonoBehaviour
     /// Player weapons inventories
     /// </summary>
     private Inventory weaponsInv;
+    private Inventory partsInv;
+
 
     private void Awake()
     {
         playerInv = GetComponent<Inventory>();
         weaponsInv = GetComponent<WeaponInventories>();
+        partsInv = GetComponent<ShipPartsInventory>();
         inventories = new List<Inventory>();
     }
 
@@ -95,6 +98,19 @@ public class InventoryInteraction : MonoBehaviour
             {
                 Debug.Log("Closing weapons inv...");
                 InventorySystem.invSyst.CloseInventory(weaponsInv);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (!CheckInvStatus(partsInv))
+            {
+                Debug.Log("Opening parts inv...");
+                InventorySystem.invSyst.OpenInventory(partsInv);
+            }
+            else
+            {
+                Debug.Log("Closing parts inv...");
+                InventorySystem.invSyst.CloseInventory(partsInv);
             }
         }
         //Opening single inventories block end

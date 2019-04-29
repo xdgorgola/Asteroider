@@ -25,6 +25,10 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private int invSize;
 
+    public Item[] INV
+    {
+        get { return inventory; }
+    }
     /// <summary>
     /// Inventory
     /// </summary>

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 088d7c34d03379e44ac92f4f0863c3fb, type: 3}
-  m_Name: Part_HealthPlus
+  m_Name: Part_Speed
   m_EditorClassIdentifier: 
   iName: Hay algo
   iDescription: 
-  iImage: {fileID: 21300000, guid: 165a076ebe8df5140bbf01deee95b66e, type: 3}
-  health: 20
+  iImage: {fileID: 21300000, guid: c6d132d6f6c26fa4f924c05e85ba88cc, type: 3}
+  health: 0
   shield: 0
   shieldRechargeRate: 0
-  speed: 0
+  speed: 500
   fireRate: 0

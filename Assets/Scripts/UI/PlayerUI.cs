@@ -16,7 +16,7 @@ public class PlayerUI : MonoBehaviour
 
     void UpdateHP()
     {
-        hpText.text = "HP: "+ GetComponent<HealthManager>().Health.ToString();
+        hpText.text = "HP: "+ GetComponent<HealthManager>().Health.ToString("F2");
     }
 
     void UpdateShield()
