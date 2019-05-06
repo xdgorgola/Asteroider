@@ -9,12 +9,12 @@ public class ShieldEvents : UnityEvent { }
 public class HealthManager : MonoBehaviour
 {
     [SerializeField]
-    private int maxHealth = 100;
+    private float maxHealth = 100;
     public float Health { get { return health; } }
     private float health = 100f;
 
     [SerializeField]
-    private int maxShield = 30;
+    private float maxShield = 30;
     public float Shield { get { return shield; } }
     [SerializeField]
     private float shield = 30f;
@@ -35,12 +35,46 @@ public class HealthManager : MonoBehaviour
     public ShieldEvents onShieldCharge = new ShieldEvents();
     public ShieldEvents onShieldDeplete = new ShieldEvents();
 
+    private ShipStats ship;
+
     //Una lista con las partes
 
+    private void Awake()
+    {
+        //shipParts = GetComponent<ShipPartsInventory>();
+        ship = GetComponent<ShipStats>();
+        ship.onPartsChange.AddListener(UpdateHealthManager);
+    }
 
     private void Start ()
     {
         CalculateSomethingShield();
+        //UpdateHealthManager();
+        //health = maxHealth;
+        //shield = maxShield;
+    }
+
+    public void UpdateHealthManager()
+    {
+        maxHealth = ship.maxHealth;
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }
+        maxShield = ship.shield;
+        shieldRechargePS = ship.shieldRechargeRate;
+        CalculateSomethingShield();
+        if (shield >= maxShield)
+        {
+            shield = maxShield;
+        }
+        else
+        {
+            rechargeShield = StartShieldReload();
+            StartCoroutine(rechargeShield);
+        }
+        onLifeChange.Invoke();
+        onShieldChange.Invoke();
     }
 
     private void CalculateSomethingShield()
@@ -97,6 +131,7 @@ public class HealthManager : MonoBehaviour
         {
             shield += add;
         }
+        Debug.Log(shield);
         onShieldChange.Invoke();
     }
 

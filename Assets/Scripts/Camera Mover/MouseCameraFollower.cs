@@ -22,11 +22,8 @@ public class MouseCameraFollower : MonoBehaviour
     private Transform target;
 
     /// <summary>
-    /// Camera movement speed
+    /// Camera movement smooth amount
     /// </summary>
-    [SerializeField]
-    private float cameraSpeed = 2f;
-
     [SerializeField]
     [Range(0,1)]
     private float smoothAmout = 0.125f;

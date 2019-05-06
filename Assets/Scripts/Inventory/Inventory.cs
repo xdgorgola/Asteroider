@@ -70,7 +70,6 @@ public class Inventory : MonoBehaviour
             InventorySlot slot = child.GetComponent<InventorySlot>();
             if (i < invSize)
             {
-                Debug.Log("xd");
                 slot.slotItem = inventory[i];
             }
             else

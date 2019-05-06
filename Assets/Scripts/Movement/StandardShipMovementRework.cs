@@ -9,11 +9,13 @@ public class StandardShipMovementRework : MonoBehaviour
     [SerializeField]
     private float rotationDamp;
 
-    //[SerializeField]
-    //private float decelerationSpeed = 4f;
+    private float speed = 1f;
+    [SerializeField]
+    private float decelerationSpeed = 4f;
 
     private Rigidbody2D rb2d;
     private ShipStats ship;
+    //private ShipPartsInventory shipParts;
 
     Vector2 lastDirection = Vector3.zero;
 
@@ -23,6 +25,22 @@ public class StandardShipMovementRework : MonoBehaviour
         cam = Camera.main;
         rb2d = GetComponent<Rigidbody2D>();
         ship = GetComponent<ShipStats>();
+        //shipParts = GetComponent<ShipPartsInventory>();
+
+        //shipParts.onPartChange.AddListener(UpdateMovement);
+        ship.onPartsChange.AddListener(UpdateMovement);
+
+    }
+
+    private void Start()
+    {
+        rb2d.drag = decelerationSpeed;
+        UpdateMovement();
+    }
+
+    public void UpdateMovement()
+    {
+        speed = ship.ShipSpeed;
     }
 
     // Update is called once per frame
@@ -32,7 +50,7 @@ public class StandardShipMovementRework : MonoBehaviour
         Rotate(direction);
         if (Input.GetKey(KeyCode.W))
         {
-            rb2d.velocity = new Vector3(direction.x, direction.y, 0) * ship.ShipSpeed;
+            rb2d.velocity = new Vector3(direction.x, direction.y, 0) * speed; //*Time.deltaTime;
             lastDirection = direction.normalized;
         }
     }

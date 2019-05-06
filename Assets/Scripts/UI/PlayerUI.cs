@@ -21,7 +21,7 @@ public class PlayerUI : MonoBehaviour
 
     void UpdateShield()
     {
-        Debug.Log(GetComponent<HealthManager>().Shield);
+        //Debug.Log(GetComponent<HealthManager>().Shield);
         shieldText.text = "Shield: " + GetComponent<HealthManager>().Shield.ToString("F2");
     }
 }

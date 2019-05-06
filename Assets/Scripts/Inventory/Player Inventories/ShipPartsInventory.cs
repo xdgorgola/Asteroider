@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ShipPartsInventory : Inventory
 {
+    /// <summary>
+    /// Raised when a part is un/equipped
+    /// </summary>
     public ShipStatsEvents onPartChange = new ShipStatsEvents();
 
     public override void AddItem(int itemPos, Item item, InventorySlot slot)
     {
-        Debug.Log(itemPos);
-        inventory[itemPos] = item;
-        slot.AddItemToSlot(item);
+        base.AddItem(itemPos, item, slot);
         onPartChange.Invoke();
     }
 
@@ -20,6 +21,11 @@ public class ShipPartsInventory : Inventory
         onPartChange.Invoke();
     }
 
+    /// <summary>
+    /// Checks if the item can be added to the inventory
+    /// </summary>
+    /// <param name="itemToCheck">Item to check if can be added</param>
+    /// <returns></returns>
     public override bool CorrectTypeItem(Item itemToCheck)
     {
         if (itemToCheck == null)
