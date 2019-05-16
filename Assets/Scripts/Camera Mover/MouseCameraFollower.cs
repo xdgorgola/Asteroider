@@ -29,7 +29,7 @@ public class MouseCameraFollower : MonoBehaviour
     private float smoothAmout = 0.125f;
 
     [SerializeField]
-    [Range(4,20)]
+    //[Range(4,20)]
     private float mouseRadius = 4f;
 
     private Vector3 velocity = Vector3.zero;

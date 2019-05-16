@@ -53,8 +53,8 @@ public class ShipStats : MonoBehaviour
             Debug.LogError("CHAMITO ESTA NAVE NO PUEDE SER NULL");
         }
         maxHealth = baseShip.health;
-        Debug.Log(maxHealth);
-        Debug.Log(baseShip.health);
+        //Debug.Log(maxHealth);
+        //Debug.Log(baseShip.health);
         shield = baseShip.shield;
         shieldRechargeRate = baseShip.shieldRechargeRate;
         speed = baseShip.speed;

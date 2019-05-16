@@ -46,7 +46,7 @@ public class StandardShipMovementRework : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 direction = (cam.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        Vector2 direction = ((cam.ScreenToWorldPoint(Input.mousePosition) - transform.position) - Vector3.forward * cam.transform.position.z).normalized; 
         Rotate(direction);
         if (Input.GetKey(KeyCode.W))
         {
