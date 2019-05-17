@@ -13,18 +13,20 @@ public class AsteroidMovement : MonoBehaviour
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        Debug.Log(" End Awake rb2d: " + rb2d);
+    }
+
+    void Start()
+    {
+        Physics2D.IgnoreLayerCollision(8, 8);
     }
 
     public void SpawnAsteroid(Vector2 position, Vector2 direction, float speed, float rotationSpeed)
     {
-        Debug.Log("Start Spawn Asteroid from Movement");
         gameObject.SetActive(true);
         transform.position = position;
         rb2d.velocity = direction.normalized * speed;
         rb2d.angularVelocity = rotationSpeed;
         transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 359));
-        Debug.Log("End Spawn Asteroid from Movement");
     }
 
     void DisableAsteroid()

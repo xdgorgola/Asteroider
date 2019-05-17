@@ -60,9 +60,9 @@ public class MouseCameraFollower : MonoBehaviour
         transform.position = smoothedPosition;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(target.position, mouseRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(target.position, mouseRadius);
+    //}
 }

@@ -28,7 +28,8 @@ public class AsteroidField : MonoBehaviour
     private Coroutine spawnRoutine;
 
     private Rigidbody2D playerRB;
-    //public GameObject testObject;
+
+    private AsteroidPoolTest asteroidPool;
 
     void Awake() {
 
@@ -56,6 +57,8 @@ public class AsteroidField : MonoBehaviour
         fieldBound = fieldColl.bounds;
 
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+        //Haceri nicializacion en caso de que no exista
+        asteroidPool = GameObject.FindGameObjectWithTag("Pool Manager").GetComponent<AsteroidPoolTest>();
     }
 
     void Start()
@@ -83,12 +86,12 @@ public class AsteroidField : MonoBehaviour
 
     private void SpawnAsteroid(Vector2 position)
     {
-        Debug.Log("Start Spawn Asteroid from field");
-        GameObject asteroid = (GameObject)GetComponent<AsteroidPool>().GetFromPool(AsteroidPool.AsteroidSize.Big);
+        //GameObject asteroid = (GameObject)GetComponent<AsteroidPool>().GetFromPool(AsteroidPoolTest.AsteroidSize.Big);
+        //GameObject asteroid = asteroidPool.GetAsteroidFromPool(AsteroidPoolTest.AsteroidSize.Big);
+        GameObject asteroid = asteroidPool.GetAsteroidFromPool((AsteroidPoolTest.AsteroidSize)Random.Range(0,2));
         Debug.Log(asteroid);
         Debug.Log(asteroid.GetComponent<AsteroidMovement>());
         asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(position, Vector2.zero, 0, 40);
-        Debug.Log("End Spawn Asteroid from field");
     }
 
     IEnumerator AsteroidSpawner()
@@ -103,10 +106,7 @@ public class AsteroidField : MonoBehaviour
 
     private void SpawnAsteroid()
     {
-        //Recuperar de una pool
-        Debug.Log("Spawneando asteroide...");
-
-        GameObject asteroid = GetComponent<AsteroidPool>().GetFromPool(AsteroidPool.AsteroidSize.Small);
+        GameObject asteroid = asteroidPool.GetAsteroidFromPool(AsteroidPoolTest.AsteroidSize.Small);
         Vector2 spawnPosition = playerRB.position + GenerateDirection() * spawnRadius;
         Vector2 fieldPoint = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
         Vector2 direction = fieldPoint - spawnPosition;
