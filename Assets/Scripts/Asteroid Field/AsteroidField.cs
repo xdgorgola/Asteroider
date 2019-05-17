@@ -30,7 +30,7 @@ public class AsteroidField : MonoBehaviour
     private Rigidbody2D playerRB;
     //public GameObject testObject;
 
-    private void Awake() {
+    void Awake() {
 
         if (!GetComponent<CircleCollider2D>()) {
             gameObject.AddComponent<CircleCollider2D>();
@@ -58,38 +58,37 @@ public class AsteroidField : MonoBehaviour
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    void Start()
     {
         active = false;
-        InitializeField();
+        Invoke("InitializeField", 5f);
     }
 
     void InitializeField()
     {
-        //int indexO = 0;
-        while (asteroidCounter < asteroidNumber) //&& //indexO < 100)
+        Debug.Log("Inicializando...");
+        while (asteroidCounter < asteroidNumber)
         {
-            //int indexI = 0;
+            //El overlap no esta furulando
             Vector2 position = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
-            Debug.Log((Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius);
             //Why 2.133333f + arbitraryValue? Because that is the minimun radium one of my asteroid sprites fits
-            //Instantiate(testObject, new Vector3(position.x, position.y,0), Quaternion.identity);
-            while (Physics2D.OverlapCircle(position, 2.133333f + 10, 1 << LayerMask.NameToLayer("Asteroid")) != null)
-            {
-                //Instantiate(testObject, new Vector3(position.x, position.y, 0), Quaternion.identity);
-                Debug.Log("CACA");
-                position = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
-                //indexI += 1;
-                //if (indexI >= 100)
-                //{
-                //    position = Vector2.zero;
-                //    break;
-                //}
-            }
+            //while (Physics2D.OverlapCircle(position, 2.133333f + 10, 1 << LayerMask.NameToLayer("Asteroid")) != null)
+            //{
+            //    position = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
+            //}
             SpawnAsteroid(position);
             asteroidCounter += 1;
-            //indexI += 1;
         }
+    }
+
+    private void SpawnAsteroid(Vector2 position)
+    {
+        Debug.Log("Start Spawn Asteroid from field");
+        GameObject asteroid = (GameObject)GetComponent<AsteroidPool>().GetFromPool(AsteroidPool.AsteroidSize.Big);
+        Debug.Log(asteroid);
+        Debug.Log(asteroid.GetComponent<AsteroidMovement>());
+        asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(position, Vector2.zero, 0, 40);
+        Debug.Log("End Spawn Asteroid from field");
     }
 
     IEnumerator AsteroidSpawner()
@@ -100,34 +99,18 @@ public class AsteroidField : MonoBehaviour
             yield return new WaitForSeconds(spawnDelay);
             SpawnAsteroid();
         }
-        
     }
 
     private void SpawnAsteroid()
     {
         //Recuperar de una pool
         Debug.Log("Spawneando asteroide...");
-        //GameObject asteroid = AsteroidPool.asteroidPool.GetFromPool();
-        //Vector2 spawnPosition = (Vector2)fieldBound.center + GenerateDirection() * fieldRadius;
-        //Debug.Log("Centro: " + (Vector2)fieldBound.center);
-        //Debug.Log("Posicion final: " + spawnPosition);
-        //Vector2 direction = (playerRB.position - spawnPosition).normalized;
-        //asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(spawnPosition, direction, 20, 40);
 
-        GameObject asteroid = AsteroidPool.asteroidPool.GetFromPool();
+        GameObject asteroid = GetComponent<AsteroidPool>().GetFromPool(AsteroidPool.AsteroidSize.Small);
         Vector2 spawnPosition = playerRB.position + GenerateDirection() * spawnRadius;
         Vector2 fieldPoint = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
         Vector2 direction = fieldPoint - spawnPosition;
-        asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(spawnPosition, direction, 20, 40);
-
-
-
-    }
-
-    private void SpawnAsteroid(Vector2 position)
-    {
-        GameObject asteroid = AsteroidPool.asteroidPool.GetFromPool();
-        asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(position, Vector2.zero, 0, 40);
+        asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(spawnPosition, direction, 40, 40);
     }
 
     /// <summary> Generates a random position in the unitary circle </summary>
@@ -135,7 +118,7 @@ public class AsteroidField : MonoBehaviour
     Vector2 GenerateDirection()
     {
         float angle = Random.Range(0, 360);
-        Debug.Log("Pos generada: " + "x: " + Mathf.Cos(angle * Mathf.Deg2Rad) + "y: " + Mathf.Sin(angle * Mathf.Deg2Rad));
+        //Debug.Log("Pos generada: " + "x: " + Mathf.Cos(angle * Mathf.Deg2Rad) + "y: " + Mathf.Sin(angle * Mathf.Deg2Rad));
         return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
     }
 
