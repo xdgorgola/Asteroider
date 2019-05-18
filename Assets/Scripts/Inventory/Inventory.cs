@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour
     public Item[] INV
     {
         get { return inventory; }
+        set { inventory = value; }
     }
     /// <summary>
     /// Inventory

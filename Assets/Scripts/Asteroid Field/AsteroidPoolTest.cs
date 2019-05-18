@@ -20,7 +20,6 @@ public class AsteroidPoolTest : MonoBehaviour
     [SerializeField]
     private GameObject smallAsteroid;
 
-    // Start is called before the first frame update
     void Start()
     {
         bigPool = new List<GameObject>();
@@ -79,6 +78,31 @@ public class AsteroidPoolTest : MonoBehaviour
                     asteroid.SetActive(true);
                     return asteroid;
                 }
+            }
+        }
+
+        if (isGrowable)
+        {
+            if (size == AsteroidPoolTest.AsteroidSize.Big)
+            {
+                GameObject obj = (GameObject)Instantiate(bigAsteroid);
+                bigPool.Add(obj);
+                obj.SetActive(true);
+                return obj;
+            }
+            else if (size == AsteroidPoolTest.AsteroidSize.Medium)
+            {
+                GameObject obj = (GameObject)Instantiate(mediumAsteroid);
+                mediumPool.Add(obj);
+                obj.SetActive(true);
+                return obj;
+            }
+            else if (size == AsteroidPoolTest.AsteroidSize.Small)
+            {
+                GameObject obj = (GameObject)Instantiate(smallAsteroid);
+                smallPool.Add(obj);
+                obj.SetActive(true);
+                return obj;
             }
         }
         return null;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Test_Interaction
   - Pool Manager
+  - Projectile
   layers:
   - Default
   - TransparentFX

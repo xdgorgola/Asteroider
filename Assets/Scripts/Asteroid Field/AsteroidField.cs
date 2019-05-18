@@ -1,45 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+public class AsteroidFieldEvents : UnityEvent{}
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class AsteroidField : MonoBehaviour
 {
-
+    /// <summary> Asteroid field activation radius </summary>
     [SerializeField]
-    [Tooltip("Recomendado un radio mayor a 40")]
-    private float fieldRadius = 40f;
-    /// <summary> Asteroid spawn radius around player </summary>
+    [Tooltip("Recomendado un radio mayor a 40 y 40 unidades mayor al spawnRadius")]
+    private float fieldRadius = 120f;
+    /// <summary> Asteroid inside field spawn radius </summary>
     [SerializeField]
-    private float spawnRadius = 20f;
+    private float spawnRadius = 80f;
 
     /// <summary> Max number of asteroids in the field </summary>
     [SerializeField]
     private int asteroidNumber = 10;
+    /// <summary> Number of asteroids in field </summary>
     private int asteroidCounter = 0;
+    /// <summary> Is the player in the asteroid field? </summary>
     private bool active = false;
 
-    private float activationDelay = 3f;
-    [SerializeField]
-    private float spawnDelay = 2f;
-
+    /// <summary> Field collider </summary>
     private CircleCollider2D fieldColl;
+    /// <summary> Field collider bounds </summary>
     private Bounds fieldBound;
-    private Coroutine spawnRoutine;
 
-    private Rigidbody2D playerRB;
-
+    /// <summary> Asteroid pool </summary>
     private AsteroidPoolTest asteroidPool;
+
+    /// <summary> Number of asteroids in field </summary>
+    public int _AsteroidCounter { get => asteroidCounter; set => asteroidCounter = value; }
+
+    public AsteroidFieldEvents onFieldExit = new AsteroidFieldEvents();
 
     void Awake() {
 
+        //Circle Collider 2D initialization
         if (!GetComponent<CircleCollider2D>()) {
             gameObject.AddComponent<CircleCollider2D>();
             fieldColl = GetComponent<CircleCollider2D>();
             fieldColl.isTrigger = true;
             fieldColl.radius = fieldRadius;
+
         }
         fieldColl = GetComponent<CircleCollider2D>();
+
         if (!fieldColl.isTrigger) {
             fieldColl.isTrigger = true;
         }   
@@ -56,61 +65,49 @@ public class AsteroidField : MonoBehaviour
         }
         fieldBound = fieldColl.bounds;
 
-        playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
-        //Haceri nicializacion en caso de que no exista
+        //Asteroid pool initialization
         asteroidPool = GameObject.FindGameObjectWithTag("Pool Manager").GetComponent<AsteroidPoolTest>();
     }
 
     void Start()
     {
         active = false;
-        Invoke("InitializeField", 5f);
+        //Invoke("InitializeField", 5f);
     }
 
+    /// <summary> Spawns all asteroids inside the field </summary>
     void InitializeField()
     {
         Debug.Log("Inicializando...");
         while (asteroidCounter < asteroidNumber)
         {
             //El overlap no esta furulando
-            Vector2 position = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
+            Vector2 position = (Vector2)fieldBound.center + Random.insideUnitCircle * spawnRadius;
             //Why 2.133333f + arbitraryValue? Because that is the minimun radium one of my asteroid sprites fits
             //while (Physics2D.OverlapCircle(position, 2.133333f + 10, 1 << LayerMask.NameToLayer("Asteroid")) != null)
             //{
             //    position = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
             //}
-            SpawnAsteroid(position);
+            SpawnAsteroidInsideField(position);
             asteroidCounter += 1;
         }
     }
 
-    private void SpawnAsteroid(Vector2 position)
+    /// <summary> Spawns an asteroid in the field </summary>
+    /// <param name="position">Spawn position</param>
+    private void SpawnAsteroidInsideField(Vector2 position)
     {
-        //GameObject asteroid = (GameObject)GetComponent<AsteroidPool>().GetFromPool(AsteroidPoolTest.AsteroidSize.Big);
-        //GameObject asteroid = asteroidPool.GetAsteroidFromPool(AsteroidPoolTest.AsteroidSize.Big);
         GameObject asteroid = asteroidPool.GetAsteroidFromPool((AsteroidPoolTest.AsteroidSize)Random.Range(0,2));
-        Debug.Log(asteroid);
-        Debug.Log(asteroid.GetComponent<AsteroidMovement>());
+        //asteroid.GetComponent<AsteroidExploder>().associatedField = this;
         asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(position, Vector2.zero, 0, 40);
     }
 
-    IEnumerator AsteroidSpawner()
-    {
-        yield return new WaitForSeconds(activationDelay);
-        SpawnAsteroid();
-        while (true) {
-            yield return new WaitForSeconds(spawnDelay);
-            SpawnAsteroid();
-        }
-    }
-
-    private void SpawnAsteroid()
+    public void SpawnAsteroidAroundPlayerField()
     {
         GameObject asteroid = asteroidPool.GetAsteroidFromPool(AsteroidPoolTest.AsteroidSize.Small);
-        Vector2 spawnPosition = playerRB.position + GenerateDirection() * spawnRadius;
         Vector2 fieldPoint = (Vector2)fieldBound.center + Random.insideUnitCircle * fieldRadius;
-        Vector2 direction = fieldPoint - spawnPosition;
-        asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(spawnPosition, direction, 40, 40);
+        //asteroid.GetComponent<AsteroidExploder>().associatedField = this;
+        asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(fieldPoint, Vector2.zero, 0, 20);
     }
 
     /// <summary> Generates a random position in the unitary circle </summary>
@@ -128,7 +125,7 @@ public class AsteroidField : MonoBehaviour
         {
             Debug.Log("Activando!");
             active = true;
-            spawnRoutine = StartCoroutine(AsteroidSpawner());
+            InitializeField();
         }
     }
 
@@ -138,13 +135,15 @@ public class AsteroidField : MonoBehaviour
         {
             Debug.Log("Desactivando!");
             active = false;
-            StopCoroutine(spawnRoutine);
+            onFieldExit.Invoke();
         }
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(Vector3.zero, 2.133333f + 2);
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, fieldRadius);
     }
 }

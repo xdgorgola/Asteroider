@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class InventoryInteraction : MonoBehaviour
 {
     /// <summary>
