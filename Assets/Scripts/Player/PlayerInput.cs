@@ -34,7 +34,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField]
     private string velocityAxis = "Vertical";
 
-    private float velocity = 0F;
+    private float velocity = 0f;
 
     public static bool InteractionDown
     {
