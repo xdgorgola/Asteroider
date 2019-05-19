@@ -31,6 +31,7 @@ public class HealthManager : MonoBehaviour
     /// Evento invocado cuando hay un cambio en la vida
     /// </summary>
     public LifeEvents onLifeChange = new LifeEvents();
+    public LifeEvents onLifeDeplete = new LifeEvents();
     public ShieldEvents onShieldChange = new ShieldEvents();
     public ShieldEvents onShieldCharge = new ShieldEvents();
     public ShieldEvents onShieldDeplete = new ShieldEvents();
@@ -112,6 +113,7 @@ public class HealthManager : MonoBehaviour
         if (health - reduce <= 0)
         {
             health = 0;
+            onLifeDeplete.Invoke();
         }
         else
         {

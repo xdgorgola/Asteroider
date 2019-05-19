@@ -23,6 +23,8 @@ public class BoltProjectile : MonoBehaviour
     /// </summary>
     private SpriteRenderer sprRenderer;
 
+    private Collider2D lastShooterColl = null;
+
     private void Awake()
     {
         sprRenderer = transform.Find("VFX").GetComponent<SpriteRenderer>();
@@ -41,6 +43,9 @@ public class BoltProjectile : MonoBehaviour
     /// <param name="speed">Projectile speed</param>
     public void SpawnProjectile(Transform spawnTrans, Sprite spr, float speed)
     {
+        if (lastShooterColl != null) Physics2D.IgnoreCollision(GetComponent<Collider2D>(), lastShooterColl, false);
+        lastShooterColl = spawnTrans.GetComponentInParent<Collider2D>();
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), lastShooterColl);
         gameObject.transform.position = spawnTrans.position;
         gameObject.transform.rotation = spawnTrans.rotation;
         projSpeed = speed;

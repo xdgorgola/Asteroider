@@ -7,33 +7,30 @@ public class AsteroidMovement : MonoBehaviour
 {
     [SerializeField]
     private float lifeTime = 7f;
-    private Rigidbody2D rb2d;
 
-    private void Awake()
+    public Rigidbody2D rb2d;
+
+    void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    void Start()
     {
-        //SpawnAsteroid(Vector2.zero, Vector2.right, 1, 100);
+        Physics2D.IgnoreLayerCollision(8, 8);
     }
 
     public void SpawnAsteroid(Vector2 position, Vector2 direction, float speed, float rotationSpeed)
     {
         gameObject.SetActive(true);
-        //Debug.Log("Posicion a spawnear: " + position);
         transform.position = position;
         rb2d.velocity = direction.normalized * speed;
         rb2d.angularVelocity = rotationSpeed;
-        //Realmente pasar a una corutina, porque hay que cancelar el destroy si se divide
-        //Ver como haremos el divide
-
-        Invoke("DisableAsteroid", lifeTime);
+        transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 359));
     }
 
     void DisableAsteroid()
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

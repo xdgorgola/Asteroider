@@ -41,9 +41,7 @@ public class ShipDestroy : MonoBehaviour
         Debug.Log("KAPOW SHIP");
         if (looteable)
         {
-            GameObject loot = (GameObject)Instantiate(lootDebris, transform.position, transform.rotation);
-            loot.AddComponent<Inventory>();
-           
+            Debug.Log("Dropping loot");
         }
         Destroy(gameObject);
     }
