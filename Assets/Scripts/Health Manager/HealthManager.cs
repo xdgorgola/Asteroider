@@ -8,34 +8,48 @@ public class LifeEvents : UnityEvent { }
 public class ShieldEvents : UnityEvent { }
 public class HealthManager : MonoBehaviour
 {
+    /// <summary> Ship max health </summary>
     [SerializeField]
     private float maxHealth = 100;
+    /// <summary> Actual ship health </summary>
     public float Health { get { return health; } }
+    /// <summary> Actual ship health </summary>
     private float health = 100f;
 
+    /// <summary> Ship max shield </summary>
     [SerializeField]
     private float maxShield = 30;
+    /// <summary> Actual shield </summary>
     public float Shield { get { return shield; } }
+    /// <summary> Actual shield </summary>
     [SerializeField]
     private float shield = 30f;
+    /// <summary> Shield recharge amount per second </summary>
     [SerializeField]
     private float shieldRechargePS = 4f;
+    /// <summary> Time intervals where shield recharge is applied </summary>
     [SerializeField]
     private float rechargeTimeInterval = 0.04f;
+    /// <summary> How much is the shield recharged every time interval </summary>
     private float shieldRechargeAmount;
+    /// <summary> Delay time before starting shield reload </summary>
     [SerializeField]
     private float shieldDelayTime = 2f;
+    /// <summary> Progressive shield recharge coroutine </summary>
     private IEnumerator rechargeShield;
 
-    /// <summary>
-    /// Evento invocado cuando hay un cambio en la vida
-    /// </summary>
+    /// <summary> Event invoked when the life changes </summary>
     public LifeEvents onLifeChange = new LifeEvents();
+    /// <summary> Event invoked when ship health reachs 0 </summary>
     public LifeEvents onLifeDeplete = new LifeEvents();
+    /// <summary> Event invoked when the shield changes </summary>
     public ShieldEvents onShieldChange = new ShieldEvents();
+    /// <summary> Event invoked when shield is shield finishes chargin </summary>
     public ShieldEvents onShieldCharge = new ShieldEvents();
+    /// <summary> Event invoked when the shield reachs 0 </summary>
     public ShieldEvents onShieldDeplete = new ShieldEvents();
 
+    /// <summary> Ship stats </summary>
     private ShipStats ship;
 
     //Una lista con las partes
@@ -55,6 +69,7 @@ public class HealthManager : MonoBehaviour
         //shield = maxShield;
     }
 
+    /// <summary> Updates health/shield related variables with the ship stats </summary>
     public void UpdateHealthManager()
     {
         maxHealth = ship.maxHealth;
@@ -78,6 +93,7 @@ public class HealthManager : MonoBehaviour
         onShieldChange.Invoke();
     }
 
+    /// <summary> Calculates shield recharge amount per time interval </summary>
     private void CalculateSomethingShield()
     {
         shieldRechargeAmount = shieldRechargePS * rechargeTimeInterval;
@@ -95,6 +111,8 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    /// <summary> Adds health </summary>
+    /// <param name="add">Health amount to add</param>
     public void AddHealth(float add)
     {
         if (health + add >= maxHealth)
@@ -107,7 +125,9 @@ public class HealthManager : MonoBehaviour
         }
         onLifeChange.Invoke();
     }
-
+    
+    /// <summary> Reduces health </summary>
+    /// <param name="reduce">Health amount to reduce</param>
     public void ReduceHealth(float reduce)
     {
         if (health - reduce <= 0)
@@ -122,6 +142,8 @@ public class HealthManager : MonoBehaviour
         onLifeChange.Invoke();
     }
 
+    /// <summary> Adds shield </summary>
+    /// <param name="add">Shield amount to add</param>
     public void AddShield(float add)
     {
         if (shield + add >= maxShield)
@@ -137,6 +159,8 @@ public class HealthManager : MonoBehaviour
         onShieldChange.Invoke();
     }
 
+    /// <summary> Reduces shield </summary>
+    /// <param name="reduce">Shield amount to reduce</param>
     public void ReduceShield(float reduce)
     {
         if (shield - reduce <= 0)
@@ -157,6 +181,8 @@ public class HealthManager : MonoBehaviour
         onShieldChange.Invoke();
     }
 
+    /// <summary> Handles damage. Reduces health and shield </summary>
+    /// <param name="damage">Damage to take</param>
     public void TakeDamage(float damage)
     {
         if (shield >= damage)
@@ -171,6 +197,7 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    /// <summary> Starts shield reloading process. Charges shield</summary>
     public IEnumerator StartShieldReload()
     {
         yield return new WaitForSeconds(shieldDelayTime);
@@ -181,6 +208,8 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    /// <summary> Daniel's stupid method </summary>
+    /// <param name="toRound">Love you dan</param>
     void RoundToTwo(ref float toRound)
     {
         toRound = Mathf.Floor(toRound * 100) / 100;

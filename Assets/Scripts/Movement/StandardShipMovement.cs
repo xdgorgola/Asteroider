@@ -26,7 +26,7 @@ public class StandardShipMovement : MonoBehaviour
     //private ShipPartsInventory shipParts;
 
     /// <summary> Variable for smoothDamp</summary>
-    private float velocity = 0f;
+    protected float velocity = 0f;
     /// <summary> Actual ship speed </summary>
     protected float actualSpeed = 0f;
 
