@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 7993942286165727460}
   - component: {fileID: 7993942286165727468}
   - component: {fileID: 7993942286165727481}
-  - component: {fileID: 7993942286165727459}
   - component: {fileID: 7993942286165727480}
   - component: {fileID: 7993942286165727456}
   - component: {fileID: 7993942286165727470}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 7993942286165727469}
   - component: {fileID: 7993942286165727462}
   - component: {fileID: 5752062118355882823}
+  - component: {fileID: 7727843848657293443}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -167,22 +167,6 @@ MonoBehaviour:
   shieldRechargePS: 4
   rechargeTimeInterval: 0.04
   shieldDelayTime: 2
---- !u!114 &7993942286165727459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7993942286165727485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9c62253a866934a80dfbf644708536, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationDamp: 10
-  speed: 30
-  slowSpeed: 15
-  decelerationSpeed: 4
 --- !u!114 &7993942286165727480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +193,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -386,6 +370,21 @@ PolygonCollider2D:
       - {x: -0.97198486, y: -0.99943733}
       - {x: -0.5877852, y: -0.80901706}
       - {x: 1.0033875, y: -0.005012512}
+--- !u!114 &7727843848657293443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993942286165727485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd936323f09ab408efce8adcbf37fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Player
+  - Damageable
 --- !u!1 &7993942286502289115
 GameObject:
   m_ObjectHideFlags: 0

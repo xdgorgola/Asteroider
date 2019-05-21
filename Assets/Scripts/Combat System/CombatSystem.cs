@@ -35,7 +35,8 @@ public class CombatSystem : MonoBehaviour
     {
         GameObject projectile = boltPool.GetFromPool();
         BoltProjectile projManager = projectile.GetComponent<BoltProjectile>();
-        projManager.SpawnProjectile(spawnT, equippedWeapon.projectileSprite, equippedWeapon.projectileSpeed);
+        //projManager.SpawnProjectile(spawnT, equippedWeapon.projectileSprite, equippedWeapon.projectileSpeed);
+        projManager.SpawnProjectile(spawnT, equippedWeapon as Bolt);
     }
 
     /// <summary>
@@ -46,16 +47,16 @@ public class CombatSystem : MonoBehaviour
     {
         if (equippedWeapon != null)
         {
-            CheckCorrectWeaponSetup(equippedWeapon);
-            if (equippedWeapon.isBolt)
+            //CheckCorrectWeaponSetup(equippedWeapon);
+            if (equippedWeapon.GetType() == typeof(Bolt))
             {
                 ShootBolt(spawn);
                 StartCoroutine(CoolDown());
             }
-            else if (equippedWeapon.isContinuous)
-            {
-                //Not implemented yet
-            }
+            //else if (equippedWeapon.isContinuous)
+            //{
+            //    //Not implemented yet
+            //}
         }
     }
 
@@ -90,11 +91,11 @@ public class CombatSystem : MonoBehaviour
     /// Checks if a weapon is not well set up (multi-type weapon) and sends a message 
     /// </summary>
     /// <param name="toCheck">Weapon to check</param>
-    private void CheckCorrectWeaponSetup(Weapon toCheck)
-    {
-        if (toCheck.isContinuous && toCheck.isBolt)
-        {
-            Debug.Log("There's something not properly set up in this weapon (CLASS OF WEAPON BOOLS).");
-        }
-    }
+    //private void CheckCorrectWeaponSetup(Weapon toCheck)
+    //{
+    //    if (toCheck.isContinuous && toCheck.isBolt)
+    //    {
+    //        Debug.Log("There's something not properly set up in this weapon (CLASS OF WEAPON BOOLS).");
+    //    }
+    //}
 }

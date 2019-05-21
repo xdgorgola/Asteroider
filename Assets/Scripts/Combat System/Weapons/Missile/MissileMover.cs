@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class MissileMover : MonoBehaviour
 {
     //Helper Period: When the missile is spawned, it starts in a helper period that makes it follow the target even
@@ -13,7 +13,7 @@ public class MissileMover : MonoBehaviour
     private float missileSpeed = 30f;
     /// <summary> Missile detection range</summary>
     [SerializeField]
-    private float missileRange = 30f;
+    private float detectionRange = 30f;
     /// <summary> Helper period counter </summary>
     private float counter = 0f;
     /// <summary> Helper Period duration </summary>
@@ -33,10 +33,13 @@ public class MissileMover : MonoBehaviour
     private Transform target;
     /// <summary> Missile RigidBody2D </summary>
     private Rigidbody2D rb2d;
+    private SpriteRenderer sprRenderer;
+
       
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        sprRenderer = GetComponent<SpriteRenderer>();
     }
     
     private void Start()
@@ -66,11 +69,19 @@ public class MissileMover : MonoBehaviour
             {
                 rb2d.velocity = direction * missileSpeed;
                 autoDestruct = true;
-                InitiateAutoDestruction();
+                MissileExploder exploder = GetComponent<MissileExploder>();
+                exploder.SelfDestruction = StartCoroutine(exploder.InitiateAutoDestruction());
             }   
         }   
     }
     
+    public void InitializeMissileMovement(Missile missile)
+    {
+        detectionRange = missile.detectionRange;
+        missileSpeed = missile.speed;
+        sprRenderer.sprite = missile.missileSprite;
+    }
+
     //Se le puede pasar el SCRIPTABLE OBJECT DEL MISIL para que indique radio de explosion y eso.
     //Asegurarse de que no le haga dano a quien lo tire
     //Pero si pasa del counter, que ademas va a permitir que el misil siga al enemigo un tiempo aunque no este en rango al inicio. si le hace dano la explosion
@@ -94,21 +105,15 @@ public class MissileMover : MonoBehaviour
     }
     
     /// <summary> Detects if the missile target is in range </summary>
-    /// <returns> Is the missile target in range? </returns>
+    /// <returns> If the missile target in range </returns>
     bool TargetInRange()
     {
-        if ( ((Vector2)(target.position - transform.position)).magnitude <= missileRange )
+        if ( ((Vector2)(target.position - transform.position)).magnitude <= detectionRange )
         {
             inRange = true;
             return true;
         }
         inRange = false;
         return false;
-    }
-    
-    void InitiateAutoDestruction()
-    {
-        Debug.Log("TE MORIRAS MISILITO");
-        gameObject.SetActive(false);
     }
 }

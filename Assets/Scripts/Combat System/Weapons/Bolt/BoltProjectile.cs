@@ -41,16 +41,17 @@ public class BoltProjectile : MonoBehaviour
     /// <param name="spawnTrans">Position/Rotation for the projecitle to spawn</param>
     /// <param name="spr">Projectile sprite</param>
     /// <param name="speed">Projectile speed</param>
-    public void SpawnProjectile(Transform spawnTrans, Sprite spr, float speed)
+    public void SpawnProjectile(Transform spawnTrans, Bolt bolt)
     {
         if (lastShooterColl != null) Physics2D.IgnoreCollision(GetComponent<Collider2D>(), lastShooterColl, false);
         lastShooterColl = spawnTrans.GetComponentInParent<Collider2D>();
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), lastShooterColl);
         gameObject.transform.position = spawnTrans.position;
         gameObject.transform.rotation = spawnTrans.rotation;
-        projSpeed = speed;
-        projSprite = spr;
-        sprRenderer.sprite = spr;
+        projSpeed = bolt.speed;
+        projSprite = bolt.boltSprite;
+        sprRenderer.sprite = projSprite;
+        boltDamage = bolt.boltDamage;
     }
 
     // Update is called once per frame
@@ -62,5 +63,15 @@ public class BoltProjectile : MonoBehaviour
     void DestroyP()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<MultiTag>().HasTag("Damageable"))
+        {
+            Debug.Log("PEWWWW");
+            collision.gameObject.GetComponent<HealthManager>().TakeDamage(boltDamage);
+            DestroyP();
+        }
     }
 }
