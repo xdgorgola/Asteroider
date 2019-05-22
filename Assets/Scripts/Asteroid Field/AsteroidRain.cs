@@ -91,9 +91,9 @@ public class AsteroidRain : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>().position, spawnRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>().position, spawnRadius);
+    //}
 }

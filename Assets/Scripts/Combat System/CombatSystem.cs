@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class CombatSystem : MonoBehaviour
 {
-    /// <summary>
-    /// Indicates if the weapon can fire
-    /// </summary>
+    /// <summary> Indicates if the weapon can fire </summary>
     private bool readyToShoot = true;
 
     public bool ReadyToShoot
@@ -25,11 +23,8 @@ public class CombatSystem : MonoBehaviour
 
     [SerializeField]
     private BoltPool boltPool;
-    //PoolB
 
-    /// <summary>
-    /// Function to make a player/ally/enemy shoot a bolt
-    /// </summary>
+    /// <summary> Function to make a player/ally/enemy shoot a bolt </summary>
     /// <param name="spawn">Where is the shot going to spawn</param>
     public void ShootBolt(Transform spawnT)
     {
@@ -39,9 +34,7 @@ public class CombatSystem : MonoBehaviour
         projManager.SpawnProjectile(spawnT, equippedWeapon as Bolt);
     }
 
-    /// <summary>
-    /// Function to make a player/ally/enemy shoot its weapon
-    /// </summary>
+    /// <summary> Function to make a player/ally/enemy shoot its weapon </summary>
     /// <param name="spawn">Where is the shot going to spawn</param>
     public void ShootWeapon(Transform spawn)
     {
@@ -60,9 +53,7 @@ public class CombatSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Changes and initializes a new weapon
-    /// </summary>
+    /// <summary> Changes and initializes a new weapon </summary>
     /// <param name="newWeapon">New weapon to equip</param>
     private void ChangeWeapon(Weapon newWeapon)
     {
@@ -71,10 +62,7 @@ public class CombatSystem : MonoBehaviour
         //Some kind of initialization for the weapon
     }
 
-    /// <summary>
-    /// Cooldown system
-    /// </summary>
-    /// <returns></returns>
+    /// <summary> Cooldown system </summary>
     public IEnumerator CoolDown()
     {
         readyToShoot = false;
@@ -86,16 +74,4 @@ public class CombatSystem : MonoBehaviour
         //Debug.Log("Reloaded!");
         readyToShoot = true;
     }
-
-    /// <summary>
-    /// Checks if a weapon is not well set up (multi-type weapon) and sends a message 
-    /// </summary>
-    /// <param name="toCheck">Weapon to check</param>
-    //private void CheckCorrectWeaponSetup(Weapon toCheck)
-    //{
-    //    if (toCheck.isContinuous && toCheck.isBolt)
-    //    {
-    //        Debug.Log("There's something not properly set up in this weapon (CLASS OF WEAPON BOOLS).");
-    //    }
-    //}
 }

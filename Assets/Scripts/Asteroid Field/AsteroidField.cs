@@ -37,6 +37,8 @@ public class AsteroidField : MonoBehaviour
 
     public AsteroidFieldEvents onFieldExit = new AsteroidFieldEvents();
 
+    public bool drawDebug = false;
+
     void Awake() {
 
         //Circle Collider 2D initialization
@@ -141,9 +143,12 @@ public class AsteroidField : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, spawnRadius);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, fieldRadius);
+        if (drawDebug)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, spawnRadius);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, fieldRadius);
+        }
     }
 }
