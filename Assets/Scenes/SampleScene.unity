@@ -1721,7 +1721,8 @@ GameObject:
   - component: {fileID: 513767188}
   - component: {fileID: 513767187}
   - component: {fileID: 513767186}
-  m_Layer: 0
+  - component: {fileID: 513767191}
+  m_Layer: 8
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1742,6 +1743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Shootable
+  - Damageable
 --- !u!58 &513767187
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1811,12 +1813,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513767185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -230.4, y: 3.2, z: 0}
+  m_LocalPosition: {x: -231.3, y: 9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513767191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513767185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37266913a64ef9847a6aa3cd99784b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4048,7 +4062,7 @@ GameObject:
   - component: {fileID: 1383111758}
   - component: {fileID: 1383111757}
   - component: {fileID: 1383111756}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4069,6 +4083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Shootable
+  - Damageable
 --- !u!58 &1383111757
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4379,12 +4394,12 @@ PrefabInstance:
     - target: {fileID: 7993942286165727461, guid: 791de91cf03740e42ab1c5f9f1fca87b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -225.9
+      value: -235.3
       objectReference: {fileID: 0}
     - target: {fileID: 7993942286165727461, guid: 791de91cf03740e42ab1c5f9f1fca87b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7993942286165727461, guid: 791de91cf03740e42ab1c5f9f1fca87b,
         type: 3}
@@ -5320,6 +5335,135 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1797021949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1797021955}
+  - component: {fileID: 1797021954}
+  - component: {fileID: 1797021953}
+  - component: {fileID: 1797021952}
+  - component: {fileID: 1797021951}
+  - component: {fileID: 1797021950}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1797021950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797021949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd936323f09ab408efce8adcbf37fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Damageable
+  - Shootable
+--- !u!58 &1797021951
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797021949}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!114 &1797021952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797021949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23550103931162446b9dea09ae6b24ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  maxShield: 30
+  shield: 30
+  shieldRechargePS: 4
+  rechargeTimeInterval: 0.04
+  shieldDelayTime: 2
+--- !u!23 &1797021953
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797021949}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1797021954
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797021949}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1797021955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797021949}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -235.3, y: -1.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824605913
 GameObject:
   m_ObjectHideFlags: 0
@@ -11465,7 +11609,7 @@ PrefabInstance:
         type: 3}
       propertyPath: inventory.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: d2dd1d5d795435d4198d688d86a1f7f0,
+      objectReference: {fileID: 11400000, guid: 6857df54d6550124e952bb6dc245431e,
         type: 2}
     - target: {fileID: 7993942286165727469, guid: 791de91cf03740e42ab1c5f9f1fca87b,
         type: 3}

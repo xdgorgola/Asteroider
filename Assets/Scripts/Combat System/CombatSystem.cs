@@ -12,6 +12,10 @@ public class CombatSystem : MonoBehaviour
         get { return readyToShoot; }
     }
 
+    /// <summary> Indicates if the detector is active </summary>
+    protected bool activeDetector = false;
+
+    /// <summary> Equipped weapon </summary>
     [SerializeField]
     private Weapon equippedWeapon = null;
 
@@ -21,35 +25,73 @@ public class CombatSystem : MonoBehaviour
         set { ChangeWeapon(value); }
     }
 
+    /// <summary> Bolt Pool </summary>
     [SerializeField]
     private BoltPool boltPool;
+    /// <summary> Missile Pool </summary>
+    [SerializeField]
+    private MissilePool missilePool;
+
+    /// <summary> Ship detector associated to GameObject </summary>
+    protected ShipDetector shipDetector;
+
+    /// <summary> Projectiles/Continuous spawn point </summary>
+    [SerializeField]
+    protected Transform shotSpawn;
+
+    protected virtual void Awake()
+    {
+        GameObject poolManager = GameObject.FindGameObjectWithTag("Pool Manager");
+        boltPool = poolManager.GetComponent<BoltPool>();
+        missilePool = poolManager.GetComponent<MissilePool>();
+        shipDetector = GetComponentInChildren<ShipDetector>();    
+    }
 
     /// <summary> Function to make a player/ally/enemy shoot a bolt </summary>
-    /// <param name="spawn">Where is the shot going to spawn</param>
-    public void ShootBolt(Transform spawnT)
+    public void ShootBolt()
     {
         GameObject projectile = boltPool.GetFromPool();
         BoltProjectile projManager = projectile.GetComponent<BoltProjectile>();
         //projManager.SpawnProjectile(spawnT, equippedWeapon.projectileSprite, equippedWeapon.projectileSpeed);
-        projManager.SpawnProjectile(spawnT, equippedWeapon as Bolt);
+        projManager.SpawnProjectile(shotSpawn, equippedWeapon as Bolt);
+    }
+
+    /// <summary> Function to make a player/ally/enemy shoot a misisle </summary>
+    void ShootMissile()
+    {
+        GameObject missile = missilePool.GetMissileFromPool();
+        MissileMover missileSpawner = missile.GetComponent<MissileMover>();
+        missileSpawner.InitializeMissileMovement(equippedWeapon as Missile);
+        Transform target = shipDetector.GetTarget();
+        if (target != null)
+        {
+            missileSpawner.SpawnTargetedMissile(target, shotSpawn);
+        }
+        else
+        {
+            missileSpawner.SpawnUnTargetedMissile(shotSpawn);
+        }
     }
 
     /// <summary> Function to make a player/ally/enemy shoot its weapon </summary>
-    /// <param name="spawn">Where is the shot going to spawn</param>
-    public void ShootWeapon(Transform spawn)
+    public void ShootWeapon()
     {
         if (equippedWeapon != null)
         {
             //CheckCorrectWeaponSetup(equippedWeapon);
             if (equippedWeapon.GetType() == typeof(Bolt))
             {
-                ShootBolt(spawn);
-                StartCoroutine(CoolDown());
+                ShootBolt();
+            }
+            else if (equippedWeapon.GetType() == typeof(Missile))
+            {
+                ShootMissile();
             }
             //else if (equippedWeapon.isContinuous)
             //{
             //    //Not implemented yet
             //}
+            StartCoroutine(CoolDown());
         }
     }
 
@@ -57,9 +99,20 @@ public class CombatSystem : MonoBehaviour
     /// <param name="newWeapon">New weapon to equip</param>
     private void ChangeWeapon(Weapon newWeapon)
     {
+        activeDetector = false;
+        shipDetector.enabled = false;
+        shipDetector.drawDebug = false;
         equippedWeapon = newWeapon;
         StartCoroutine(CoolDown());
-        //Some kind of initialization for the weapon
+        if (newWeapon != null)
+        {
+            if (newWeapon.GetType() == typeof(Missile))
+            {
+                activeDetector = true;
+                shipDetector.enabled = true;
+                shipDetector.drawDebug = true;
+            }
+        }      
     }
 
     /// <summary> Cooldown system </summary>

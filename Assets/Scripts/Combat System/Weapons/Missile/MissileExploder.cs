@@ -67,12 +67,6 @@ public class MissileExploder : MonoBehaviour
                 AddExplosionForce(hit);
                 hit.gameObject.GetComponent<HealthManager>().TakeDamage(explosionDamage);
             }
-
-            //if (hit.CompareTag("Player") && hit.gameObject != gameObject)
-            //{
-            //    AddExplosionForce(hit);
-            //    hit.gameObject.GetComponent<HealthManager>().TakeDamage(explosionDamage);
-            //}
         }
         gameObject.SetActive(false);
     }
@@ -93,13 +87,10 @@ public class MissileExploder : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //if (collision.collider.isTrigger) return;
         if (collision.gameObject.GetComponent<MultiTag>().HasTag("Damageable"))
         {
             Explode(explosionRange);
         }
-        //if (collision.collider.CompareTag("Player"))
-        //{
-        //    Explode(explosionRange);
-        //}
     }
 }

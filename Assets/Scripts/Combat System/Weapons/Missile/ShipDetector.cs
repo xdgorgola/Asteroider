@@ -12,12 +12,16 @@ public class ShipDetector : MonoBehaviour
     /// <summary> Who are you "Aiming" from the detected gameobjects </summary>
     [SerializeField]
     private int aimingAt = 0;
+    /// <summary> Is this GameObject the player? </summary>
     [SerializeField]
     private bool isPlayer = true;
+    /// <summary> Detectable objects </summary>
     [SerializeField]
     private string detectionTag = "Shootable";
 
+    /// <summary> Detector collider </summary>
     private CircleCollider2D coll;
+    /// <summary> Detected GameObjects </summary>
     private List<Transform> inRange = new List<Transform>();
 
     public bool drawDebug = false;
@@ -29,6 +33,7 @@ public class ShipDetector : MonoBehaviour
         coll.isTrigger = true;
     }
 
+    /// <summary> Goes forward in target list </summary>
     public void NextTarget()
     {
         if (aimingAt + 1 < inRange.Count)
@@ -41,6 +46,7 @@ public class ShipDetector : MonoBehaviour
         }
     }
 
+    /// <summary> Goes backward in target list </summary>
     public void PreviousTarget()
     {
         if (aimingAt - 1 >= 0)
@@ -53,6 +59,8 @@ public class ShipDetector : MonoBehaviour
         }
     }
 
+    /// <summary> Gets current target </summary>
+    /// <returns> Detection target </returns>
     public Transform GetTarget()
     {
         if (inRange.Count > 0)
@@ -70,7 +78,7 @@ public class ShipDetector : MonoBehaviour
             if (collision.GetComponent<MultiTag>().HasTag(detectionTag))
             {
                 inRange.Add(collision.transform);
-                Debug.Log(collision.gameObject.name + " BIENVENDIO");
+                //Debug.Log(collision.gameObject.name + " BIENVENIDO");
             }
         }
     }
@@ -83,7 +91,7 @@ public class ShipDetector : MonoBehaviour
             if (collision.GetComponent<MultiTag>().HasTag(detectionTag) && (inRange.Contains(collision.transform)))
             {
                 inRange.Remove(collision.transform);
-                Debug.Log(collision.gameObject.name + " CHAITO");
+                //Debug.Log(collision.gameObject.name + " CHAITO");
                 if (aimingAt >= inRange.Count && inRange.Count > 0)
                 {
                     aimingAt -= 1;

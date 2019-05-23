@@ -103,7 +103,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &8712118836715077127
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missileSpeed: 30
   detectionRange: 30
+  maxRotation: 30
   target: {fileID: 0}
 --- !u!114 &7802190765989785253
 MonoBehaviour:

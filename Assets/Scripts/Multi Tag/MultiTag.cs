@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MultiTag : MonoBehaviour
 {
+    /// <summary> GameObject tag </summary>
     [SerializeField]
     private string[] tags = new string[1] { "Default" };
 
@@ -15,6 +16,9 @@ public class MultiTag : MonoBehaviour
         }
     }
 
+    /// <summary> Looks if the object has certain tag </summary>
+    /// <param name="tag"> Tag to search for </param>
+    /// <returns> If the object has the tag </returns>
     public bool HasTag(string tag)
     {
         for (int i = 0; i < tag.Length; i++)

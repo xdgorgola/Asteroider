@@ -7,18 +7,13 @@ public class PlayerCombatHandler : CombatSystem
     public int actualWeapon { get; private set; } = 0;
 
     /// <summary>
-    /// Where the weapon projectile/laser is spawned
-    /// </summary>
-    [SerializeField]
-    private Transform shotSpawn;
-
-    /// <summary>
     /// Script associated with the weapons inventory
     /// </summary>
     private WeaponInventories weaponsInv;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         weaponsInv = GetComponent<WeaponInventories>();
     }
 
@@ -29,17 +24,29 @@ public class PlayerCombatHandler : CombatSystem
 
     private void Update()
     {
-        if (PlayerInput.ShootInput && ReadyToShoot)
+        if (activeDetector && Input.GetKeyDown(KeyCode.A))
         {
-            ShootWeapon(shotSpawn);
+            shipDetector.PreviousTarget();
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        else if (activeDetector && Input.GetKeyDown(KeyCode.D))
+        {
+            shipDetector.NextTarget();
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            PreviousWeapon();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             NextWeapon();
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        
+
+        if (PlayerInput.ShootInput && ReadyToShoot)
         {
-            PreviousWeapon();
+            ShootWeapon();
         }
     }
 

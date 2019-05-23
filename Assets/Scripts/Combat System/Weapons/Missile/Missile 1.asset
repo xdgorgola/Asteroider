@@ -15,10 +15,10 @@ MonoBehaviour:
   iName: Hay algo
   iDescription: 
   iImage: {fileID: 0}
-  fireRate: 0
-  missileDamage: 20
+  fireRate: 0.1
+  missileDamage: 40
   detectionRange: 20
   explosionRange: 10
   knockBack: 10
-  speed: 30
+  speed: 10
   missileSprite: {fileID: 21300000, guid: a324b0e5d3bc3a34688cb764799ebd92, type: 3}

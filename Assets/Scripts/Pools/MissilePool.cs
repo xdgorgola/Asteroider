@@ -34,14 +34,14 @@ public class MissilePool : MonoBehaviour
         {
             if (!obj.activeInHierarchy)
             {
-                obj.SetActive(true);
+                //obj.SetActive(true);
                 return obj;
             }
         }
         if (isGrowable)
         {
             GameObject obj = Instantiate(missileBase);
-            obj.SetActive(true);
+            //obj.SetActive(true);
             pool.Add(obj);
             return obj;
         }
