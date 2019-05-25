@@ -61,11 +61,17 @@ public class MissileExploder : MonoBehaviour
         Collider2D[] hitted = Physics2D.OverlapCircleAll(transform.position, explosionRange);
         foreach (Collider2D hit in hitted)
         {
-            Debug.Log(hit.gameObject.name);           
-            if (hit.gameObject != gameObject && hit.GetComponent<MultiTag>().HasTag("Damageable"))
+            Debug.Log(hit.gameObject);
+            Debug.Log(gameObject);
+            Debug.Log(hit.GetComponent<MultiTag>().HasTag("Damageable"));
+            if (hit.gameObject != gameObject && hit.gameObject.GetComponent<MultiTag>().HasTag("Damageable"))
             {
                 AddExplosionForce(hit);
                 hit.gameObject.GetComponent<HealthManager>().TakeDamage(explosionDamage);
+            }
+            else if (hit.gameObject != gameObject && hit.GetComponent<MultiTag>().HasTag("Asteroid"))
+            {
+                AddExplosionForce(hit);
             }
         }
         gameObject.SetActive(false);

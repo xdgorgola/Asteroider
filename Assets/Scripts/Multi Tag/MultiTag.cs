@@ -6,7 +6,7 @@ public class MultiTag : MonoBehaviour
 {
     /// <summary> GameObject tag </summary>
     [SerializeField]
-    private string[] tags = new string[1] { "Default" };
+    private string[] tags;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class MultiTag : MonoBehaviour
     /// <returns> If the object has the tag </returns>
     public bool HasTag(string tag)
     {
-        for (int i = 0; i < tag.Length; i++)
+        for (int i = 0; i < tags.Length; i++)
         {
             if (tags[i] == tag) return true;
         }

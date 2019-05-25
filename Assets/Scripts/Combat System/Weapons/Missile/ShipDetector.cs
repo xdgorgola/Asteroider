@@ -78,7 +78,7 @@ public class ShipDetector : MonoBehaviour
             if (collision.GetComponent<MultiTag>().HasTag(detectionTag))
             {
                 inRange.Add(collision.transform);
-                //Debug.Log(collision.gameObject.name + " BIENVENIDO");
+                if (drawDebug) Debug.Log(collision.gameObject.name + " BIENVENIDO");
             }
         }
     }
@@ -91,7 +91,7 @@ public class ShipDetector : MonoBehaviour
             if (collision.GetComponent<MultiTag>().HasTag(detectionTag) && (inRange.Contains(collision.transform)))
             {
                 inRange.Remove(collision.transform);
-                //Debug.Log(collision.gameObject.name + " CHAITO");
+                if (drawDebug) Debug.Log(collision.gameObject.name + " CHAITO");
                 if (aimingAt >= inRange.Count && inRange.Count > 0)
                 {
                     aimingAt -= 1;

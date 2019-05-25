@@ -19,4 +19,4 @@ MonoBehaviour:
   shield: 50
   shieldRechargeRate: 0
   speed: 20
-  fireRate: 0
+  fireRate: 1

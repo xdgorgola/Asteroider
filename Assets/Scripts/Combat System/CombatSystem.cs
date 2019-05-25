@@ -7,13 +7,12 @@ public class CombatSystem : MonoBehaviour
     /// <summary> Indicates if the weapon can fire </summary>
     private bool readyToShoot = true;
 
-    public bool ReadyToShoot
-    {
-        get { return readyToShoot; }
-    }
+    public bool ReadyToShoot { get { return readyToShoot; } }
 
     /// <summary> Indicates if the detector is active </summary>
     protected bool activeDetector = false;
+
+    private float fireRateModifier = 0f;
 
     /// <summary> Equipped weapon </summary>
     [SerializeField]
@@ -32,6 +31,8 @@ public class CombatSystem : MonoBehaviour
     [SerializeField]
     private MissilePool missilePool;
 
+    private ShipStats ship;
+
     /// <summary> Ship detector associated to GameObject </summary>
     protected ShipDetector shipDetector;
 
@@ -44,11 +45,19 @@ public class CombatSystem : MonoBehaviour
         GameObject poolManager = GameObject.FindGameObjectWithTag("Pool Manager");
         boltPool = poolManager.GetComponent<BoltPool>();
         missilePool = poolManager.GetComponent<MissilePool>();
-        shipDetector = GetComponentInChildren<ShipDetector>();    
+        shipDetector = GetComponentInChildren<ShipDetector>();
+        ship = GetComponent<ShipStats>();
+
+        ship.onPartsChange.AddListener(UpdateFireRate);
+    }
+
+    void UpdateFireRate()
+    {
+        fireRateModifier = ship.fireRate;
     }
 
     /// <summary> Function to make a player/ally/enemy shoot a bolt </summary>
-    public void ShootBolt()
+    void ShootBolt()
     {
         GameObject projectile = boltPool.GetFromPool();
         BoltProjectile projManager = projectile.GetComponent<BoltProjectile>();
@@ -116,13 +125,16 @@ public class CombatSystem : MonoBehaviour
     }
 
     /// <summary> Cooldown system </summary>
-    public IEnumerator CoolDown()
+    IEnumerator CoolDown()
     {
         readyToShoot = false;
         //Debug.Log("Reloading...");
         if (equippedWeapon != null)
         {
-            yield return new WaitForSeconds(equippedWeapon.fireRate);
+            float finalCD = equippedWeapon.fireRate - equippedWeapon.fireRate * fireRateModifier;
+            if (finalCD < 0.25) finalCD = 0.25f;
+            Debug.Log(finalCD);
+            yield return new WaitForSeconds(finalCD);
         }
         //Debug.Log("Reloaded!");
         readyToShoot = true;

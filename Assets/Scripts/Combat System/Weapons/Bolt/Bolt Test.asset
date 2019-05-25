@@ -15,7 +15,7 @@ MonoBehaviour:
   iName: carahhhh
   iDescription: 
   iImage: {fileID: 21300000, guid: fa21755c46b64b84ab349a666f0472d1, type: 3}
-  fireRate: 2
+  fireRate: 1
   boltDamage: 10
   speed: 30
   boltSprite: {fileID: 21300000, guid: fa21755c46b64b84ab349a666f0472d1, type: 3}

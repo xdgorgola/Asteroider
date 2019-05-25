@@ -4,26 +4,23 @@ using UnityEngine;
 
 public class BoltProjectile : MonoBehaviour
 {
-    /// <summary>
-    /// Projectile movement speed
-    /// </summary>
+    /// <summary> Projectile movement speed </summary>
     [SerializeField]
     private float projSpeed = 25f;
-    /// <summary>
-    /// Bolt damage
-    /// </summary>
+    /// <summary> Bolt damage </summary>
     private float boltDamage = 0f;
-    /// <summary>
-    /// Bolt sprite
-    /// </summary>
+    /// <summary> Bolt life time </summary>
+    [SerializeField]
+    private float boltLife = 5f;
+    /// <summary> Bolt sprite </summary>
     private Sprite projSprite;
 
-    /// <summary>
-    /// Sprite renderer component
-    /// </summary>
+    /// <summary> Sprite renderer component </summary>
     private SpriteRenderer sprRenderer;
 
+    /// <summary> Collider of the last one that shooted this GameObject bolt </summary>
     private Collider2D lastShooterColl = null;
+    private Coroutine destroyBolt;
 
     private void Awake()
     {
@@ -32,7 +29,7 @@ public class BoltProjectile : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke("DestroyP", 5f);
+        destroyBolt = StartCoroutine(DestroyBolt());
     }
 
     /// <summary>
@@ -60,8 +57,10 @@ public class BoltProjectile : MonoBehaviour
         transform.Translate(Vector3.right * projSpeed * Time.deltaTime, Space.Self);
     }
 
-    void DestroyP()
+    /// <summary> Destroys the bolt in boltLife seconds</summary>
+    IEnumerator DestroyBolt()
     {
+        yield return new WaitForSeconds(boltLife);
         gameObject.SetActive(false);
     }
 
@@ -71,7 +70,8 @@ public class BoltProjectile : MonoBehaviour
         {
             Debug.Log("PEWWWW");
             collision.gameObject.GetComponent<HealthManager>().TakeDamage(boltDamage);
-            DestroyP();
         }
+        StopCoroutine(destroyBolt);
+        gameObject.SetActive(false);
     }
 }

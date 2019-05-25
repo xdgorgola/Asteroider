@@ -14,6 +14,7 @@ public class AsteroidExploder : MonoBehaviour
 
     /// <summary> Asteroid Pool </summary>
     private AsteroidPoolTest asteroidPool;
+    private AsteroidParticlePools particlePool;
 
     public AsteroidField associatedField = null;
 
@@ -23,6 +24,7 @@ public class AsteroidExploder : MonoBehaviour
     {
         //Initializes asteroid pool
         asteroidPool = GameObject.FindGameObjectWithTag("Pool Manager").GetComponent<AsteroidPoolTest>();
+        particlePool = GameObject.FindGameObjectWithTag("Pool Manager").GetComponent<AsteroidParticlePools>();
     }
 
     /// <summary> Rotates a vector between min and max angles</summary>
@@ -51,12 +53,32 @@ public class AsteroidExploder : MonoBehaviour
         asteroid.GetComponent<AsteroidMovement>().SpawnAsteroid(position, direction, speed, rotationSpeed);
     }
 
+    private void SpawnParticles()
+    {
+        GameObject particles = particlePool.GetAsteroidParticles();
+        if (particles == null) return;
+        //The -0.1f is to spawn the particles in front of everything (maybe sorting layers is a good option)
+        particles.transform.position = new Vector3(transform.position.x, transform.position.y, -0.1f);
+        particles.SetActive(true);
+    }
+
+    private void DoContactDamage(GameObject collissioner, AsteroidPoolTest.AsteroidSize size)
+    {
+        if (collissioner.GetComponent<MultiTag>().HasTag("Damageable"))
+        {
+            HealthManager hm = collissioner.GetComponent<HealthManager>();
+
+            if (size == AsteroidPoolTest.AsteroidSize.Big) hm.TakeDamage(20f);
+            else if (size == AsteroidPoolTest.AsteroidSize.Medium) hm.TakeDamage(10f);
+            else if (size == AsteroidPoolTest.AsteroidSize.Small) hm.TakeDamage(5f);  
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D collider = collision.collider;
         if (collider.CompareTag("Player") || collider.CompareTag("Projectile"))
         {
-
             //Gets contact point
             ContactPoint2D point = collision.GetContact(0);
             //Direction from transform position to contact point
@@ -82,6 +104,7 @@ public class AsteroidExploder : MonoBehaviour
                 SpawnAsteroid(AsteroidPoolTest.AsteroidSize.Small, transform.position, bounce2, Random.Range(5, 20), 25);
             }
 
+            SpawnParticles();
             onAsteroidDestroy.Invoke();
 
             //Deactivates asteroid
@@ -92,6 +115,7 @@ public class AsteroidExploder : MonoBehaviour
                 collider.gameObject.SetActive(false);
             }
         }
+        DoContactDamage(collision.gameObject, size);
     }
 
 

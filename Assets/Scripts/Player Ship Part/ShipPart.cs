@@ -9,5 +9,6 @@ public class ShipPart :Item
     public int shield;
     public float shieldRechargeRate;
     public float speed;
+    [Range(0,1)]
     public float fireRate;
 }

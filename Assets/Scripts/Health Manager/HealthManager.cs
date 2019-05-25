@@ -155,7 +155,7 @@ public class HealthManager : MonoBehaviour
         {
             shield += add;
         }
-        Debug.Log(shield);
+        //Debug.Log(shield);
         onShieldChange.Invoke();
     }
 

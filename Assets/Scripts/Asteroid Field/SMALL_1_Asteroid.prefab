@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3559531430991339315}
   - component: {fileID: 3559531430991339314}
   - component: {fileID: -154855246071460708}
+  - component: {fileID: 6064614395158773193}
   m_Layer: 8
   m_Name: SMALL_1_Asteroid
   m_TagString: Untagged
@@ -148,3 +149,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 2
   associatedField: {fileID: 0}
+--- !u!114 &6064614395158773193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559531430991337678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd936323f09ab408efce8adcbf37fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Asteroid

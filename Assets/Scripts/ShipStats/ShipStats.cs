@@ -22,7 +22,7 @@ public class ShipStats : MonoBehaviour
         get { return speed; }
     }
     private float speed;
-    private float fireRate;
+    public float fireRate;
 
     private Sprite shipSprites;
     private ShipPartsInventory shipParts;
