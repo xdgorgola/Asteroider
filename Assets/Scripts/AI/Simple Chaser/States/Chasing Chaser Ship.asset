@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d056ded165af71a49ac79f324f8b432f, type: 3}
+  m_Name: Chasing Chaser Ship
+  m_EditorClassIdentifier: 
+  enterActions: []
+  actions:
+  - {fileID: 11400000, guid: 5f766f0e0634cfb48a030192771348fc, type: 2}
+  exitActions: []
+  transitions:
+  - decision: {fileID: 11400000, guid: 471d474c2e3e5f947838ad10168bbab5, type: 2}
+    trueState: {fileID: 11400000, guid: 58e307621c89cfa4b973cae555e0b492, type: 2}
+    falseState: {fileID: 11400000, guid: fe4b7cfc1a3810340bd858ee9c9bcd26, type: 2}
+  debugGizmoColor: {r: 1, g: 0, b: 0, a: 1}

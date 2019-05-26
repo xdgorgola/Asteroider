@@ -51,7 +51,7 @@ public class StandardShipMovement : MonoBehaviour
     }
 
     /// <summary> Moves the ship forward (his front) </summary>
-    protected void MoveForward()
+    public void MoveForward()
     {
         Vector2 direction = (Vector2)transform.right.normalized;
         //Smooth transition between actual speed and desired one
@@ -82,7 +82,7 @@ public class StandardShipMovement : MonoBehaviour
 
     /// <summary> Rotates the ship to certain direction </summary>
     /// <param name="lookDirection"> Direction to rotate to </param>
-    protected void Rotate(Vector2 lookDirection)
+    public void Rotate(Vector2 lookDirection)
     {
         Quaternion actualRotation = transform.rotation;
         Quaternion desiredRotation = Quaternion.LookRotation(transform.forward, Vector2.Perpendicular(lookDirection));
